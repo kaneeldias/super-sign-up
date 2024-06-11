@@ -104,7 +104,7 @@ export default function Home() {
 	}
 	
 	return (
-		<div className={`flex flex-col h-screen w-full p-10`}>
+		<div className={`flex flex-col h-screen w-full md:p-10 p-2`}>
 			<Progress value={progress} />
 			<div className={`flex flex-row h-screen w-full items-center justify-center`}>
 				
