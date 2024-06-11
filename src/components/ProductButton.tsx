@@ -26,7 +26,7 @@ export default function ProductButton(props: Props) {
 			whileHover={{ scale: 1.1, rotate: 3}}
 			whileTap={{ scale: 0.9 }}
 		>
-			<div className={`${bgColor} text-center text-white font-bold uppercase px-5 py-3 rounded-md md:w-56 text-md md:text-lg  cursor-pointer`}
+			<div className={`${bgColor} text-center text-white font-bold uppercase px-5 py-3 rounded-md md:w-64 text-md md:text-lg  cursor-pointer`}
 				onClick={props.onClick}
 			>
 				{text}

@@ -21,7 +21,8 @@ export const FLOW: Flow = {
 		]
 	},
 	1: {
-		question: "Hello! Which project do you want to explore today?",
+		question: "Which project do you want to explore today?",
+		preText:"We have different types of projects for you to explore",
 		answersType: "Product",
 		options: [
 			{ value: "GV", next: 2 },
@@ -54,8 +55,8 @@ export const FLOW: Flow = {
 		]
 	},
 	4: {
-		question: "We have opportunities all around the globe",
-		preText:"In which region would you like to explore our programs?",
+		preText: "We have opportunities all around the globe",
+		question:"In which region would you like to explore our programs?",
 		answersType: "GTaSubProduct",
 		options: [
 			{ value: "Americas", next: 5 },
@@ -68,7 +69,7 @@ export const FLOW: Flow = {
 		question: "What is the earliest date you would like to start a project?",
 		answersType: "Date",
 		options: [
-			{ value: "Find my opportunities", next: -1 },
+			{ value: "Find my opportunities", next: 0 },
 		]
 	}
 }

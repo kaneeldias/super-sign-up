@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import QuestionBox from "@/components/QuestionBox";
 import {FLOW, Question} from "@/config/flow";
 import {getUrl} from "@/utils/aiesec-org-mapper";
-import {Loader} from "@mantine/core";
+import {Loader, Progress} from "@mantine/core";
 
 export type Profile = {
 	product?: "GV" | "GTa" | "GTe",
@@ -12,6 +12,12 @@ export type Profile = {
 	duration?: string
 	region?: string
 	earliestStartDate?: Date
+}
+
+const ANIMATIONS =  {
+	initial: {x: 300, opacity: 0 },
+	animate: {x: 0, opacity: 1, transition: { delay: 0 }},
+	exit: {x: -300, opacity: 0 }
 }
 
 export default function Home() {
@@ -92,53 +98,86 @@ export default function Home() {
 	
 	return (
 		<div className={`flex flex-row h-screen w-full items-center justify-center`}>
+			 <Progress value={50} />
 			
-			<AnimatePresence>
+			<AnimatePresence mode="wait">
+			
 				{ question == -1 && (
 					<motion.div
-						initial={{opacity: 0, x: '50%'}}
-						animate={{ opacity: 1, x: '0%', transition: {delay: 0.5} }}
-						exit={{opacity: 0, x: '-100%'}}
+						key={-1}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
 					>
 						<Loader color="blue"/>
 					</motion.div>
 				)}
 			
-			</AnimatePresence>
 			
-			<AnimatePresence>
 				{ question == 0 && (
+					<motion.div
+						key={0}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[0]} setAnswer={handleNext}/>
+					</motion.div>
 				)}
-			</AnimatePresence>
-			
-			<AnimatePresence>
+				
 				{ question == 1 && (
+					<motion.div
+						key={1}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[1]} setAnswer={handleProductSelection}/>
+					</motion.div>
 				)}
-			</AnimatePresence>
 			
-			<AnimatePresence>
 				{ question == 2 && (
+					<motion.div
+						key={2}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[2]} setAnswer={handleGTaSubProductSelection}/>
+					</motion.div>
 				)}
-			</AnimatePresence>
 			
-			<AnimatePresence>
 				{ question == 3 && (
+					<motion.div
+						key={3}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[3]} setAnswer={handleDurationSelection}/>
+					</motion.div>
 				)}
-			</AnimatePresence>
 			
-			<AnimatePresence>
 				{ question == 4 && (
+					<motion.div
+						key={4}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[4]} setAnswer={handleRegionSelection}/>
+					</motion.div>
 				)}
-			</AnimatePresence>
 			
-			<AnimatePresence>
 				{ question == 5 && (
+					<motion.div
+						key={5}
+						initial={ANIMATIONS.initial}
+						animate={ANIMATIONS.animate}
+						exit={ANIMATIONS.exit}
+					>
 					<QuestionBox item={FLOW[5]} setAnswer={handleStartDateSelection}/>
+					</motion.div>
 				)}
 			</AnimatePresence>
 		
