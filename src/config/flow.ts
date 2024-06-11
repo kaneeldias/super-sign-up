@@ -69,7 +69,7 @@ export const FLOW: Flow = {
 		question: "What is the earliest date you would like to start a project?",
 		answersType: "Date",
 		options: [
-			{ value: "Find my opportunities", next: 0 },
+			{ value: "Find my opportunities", next: -1 },
 		]
 	}
 }
