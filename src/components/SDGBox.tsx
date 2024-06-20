@@ -11,7 +11,7 @@ export default function SDGBox(props: Props) {
 		<motion.div
 			whileHover={{scale: 1.1}}
 			whileTap={{scale: 0.9}}
-			className={`w-32 m-3`}
+			className={`w-16 md:w-32 m-1 md:m-3`}
 			onClick={() => props.setAnswer(props.sdg)}
 		>
 			<Image
