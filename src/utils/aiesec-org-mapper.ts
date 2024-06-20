@@ -1,10 +1,29 @@
 import {Profile} from "@/app/page";
+import {base} from "next/dist/build/webpack/config/blocks/base";
 
 export function getUrl(profile: Profile) {
 	let baseUrl = "https://aiesec.org/search?";
 	
-	if (profile.product) {
+	if (profile.product && !baseUrl.includes("project")) {
 		baseUrl += `programmes=${programmesMap[profile.product]}`;
+	}
+	
+	if (profile.sdg) {
+		if (profile.sdg == 3) {
+			baseUrl = "https://aiesec.org/project/1280511?"
+		}
+		else if (profile.sdg == 10) {
+			baseUrl = "https://aiesec.org/project/1280521?"
+		}
+		else if (profile.sdg == 13) {
+			baseUrl = "https://aiesec.org/project/1280522?"
+		}
+		else if (profile.sdg == 15) {
+			baseUrl = "https://aiesec.org/project/1280523?"
+		}
+		else {
+			baseUrl += `&sdg_goals=111${profile.sdg.toFixed(0).padStart(2, "0")}`;
+		}
 	}
 	
 	// @ts-ignore
@@ -26,10 +45,6 @@ export function getUrl(profile: Profile) {
 	
 	if (profile.earliestStartDate) {
 		baseUrl += `&earliest_start_date=${getDateStringFromDate(profile.earliestStartDate)}`;
-	}
-	
-	if (profile.sdg) {
-		baseUrl += `&sdg_goals=111${profile.sdg.toFixed(0).padStart(2, "0")}`;
 	}
 	
 	return baseUrl;
