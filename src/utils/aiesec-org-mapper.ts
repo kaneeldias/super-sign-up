@@ -13,7 +13,7 @@ export function getUrl(profile: Profile) {
 		baseUrl += `&sub_products=${subProductsMap[profile.gtaSubProduct]}`;
 	}
 	
-	if (profile.duration ) {
+	if (profile.duration && profile.duration != "I am flexible") {
 		let durationString = profile.duration.split(" ")[0].toLowerCase()
 		baseUrl += `&duration_type=${durationString}`;
 	}
@@ -26,6 +26,10 @@ export function getUrl(profile: Profile) {
 	
 	if (profile.earliestStartDate) {
 		baseUrl += `&earliest_start_date=${getDateStringFromDate(profile.earliestStartDate)}`;
+	}
+	
+	if (profile.sdg) {
+		baseUrl += `&sdg_goals=111${profile.sdg.toFixed(0).padStart(2, "0")}`;
 	}
 	
 	return baseUrl;
@@ -51,7 +55,7 @@ const regionsMap = {
 	"Americas": "1627",
 	"Asia Pacific": "1630",
 	"Europe": "1629",
-	"Middle East & Africa": "1632"
+	"Middle East & Africa": "1632",
 }
 
 export function getDateStringFromDate(date: Date): string {

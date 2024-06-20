@@ -1,7 +1,7 @@
 export type Question = {
 	question: string,
-	preText?: string,
-	answersType: "Product" | "YesNo" | "GTaSubProduct" | "Comment" | "Date",
+	preText?: string ,
+	answersType: "Product" | "YesNo" | "GTaSubProduct" | "Comment" | "Date" | "SDGSelection"
 	options: {
 		value: string,
 		next: number
@@ -12,6 +12,8 @@ type Flow = {
 	[key: number]: Question
 }
 
+
+
 export const FLOW: Flow = {
 	0: {
 		question: "AIESEC is a global youth-led organization that develops leadership skills through international internships and volunteer experiences.",
@@ -21,13 +23,13 @@ export const FLOW: Flow = {
 		]
 	},
 	1: {
-		question: "Which project do you want to explore today?",
-		preText:"We have different types of projects for you to explore",
+		preText: "AIESEC is a global youth-led organization that develops leadership skills through international internships and volunteer experiences.",
+		question:"Which project do you want to explore today?",
 		answersType: "Product",
 		options: [
-			{ value: "GV", next: 2 },
+			{ value: "GV", next: 6 },
 			{ value: "GTa", next: 2 },
-			{ value: "GTe", next: 2 }
+			{ value: "GTe", next: 3 }
 		]
 	},
 	2: {
@@ -51,7 +53,8 @@ export const FLOW: Flow = {
 		options: [
 			{ value: "Short (6-12 weeks)", next: 4 },
 			{ value: "Medium (3-6 months)", next: 4 },
-			{ value: "Long (6+ months)", next: 4 }
+			{ value: "Long (6+ months)", next: 4 },
+			{ value: "I am flexible", next: 4}
 		]
 	},
 	4: {
@@ -62,7 +65,8 @@ export const FLOW: Flow = {
 			{ value: "Americas", next: 5 },
 			{ value: "Asia Pacific", next: 5 },
 			{ value: "Europe", next: 5 },
-			{ value: "Middle East & Africa", next: 5 }
+			{ value: "Middle East & Africa", next: 5 },
+			{ value: "I am flexible", next: 5}
 		]
 	},
 	5: {
@@ -71,5 +75,13 @@ export const FLOW: Flow = {
 		options: [
 			{ value: "Find my opportunities", next: -1 },
 		]
-	}
+	},
+	6: {
+		preText: "All our Global Volunteer experiences are a maximum 8 weeks and each of them is built to contribute directly to one of the SDGs",
+		question:"Which SDG would you like to contribute to while volunteering abroad?",
+		answersType: "SDGSelection",
+		options: [
+			{ value: "Next", next: 5 }
+		]
+	},
 }

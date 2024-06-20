@@ -1,10 +1,10 @@
 import {Question} from "@/config/flow";
-import {AnimatePresence, motion} from "framer-motion";
 import ProductButton from "@/components/ProductButton";
 import YesNoButton from "@/components/YesNoButton";
 import GTaSubProductButton from "@/components/GTaSubProductButton";
 import NextButton from "@/components/NextButton";
 import StartDatePicker from "@/components/StartDatePicker";
+import SDGSelector from "@/components/SDGSelector";
 
 type Props = {
 	item: Question
@@ -47,6 +47,10 @@ export default function QuestionBox(props: Props) {
 							<GTaSubProductButton key={option.value} text={option.value} onClick={() => {props.setAnswer(option.value)}}/>
 						))}
 					</div>
+				)}
+				
+				{ props.item.answersType == "SDGSelection" && (
+					<SDGSelector setAnswer={props.setAnswer}/>
 				)}
 				
 				{ props.item.answersType == "Date" && (

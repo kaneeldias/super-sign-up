@@ -12,6 +12,7 @@ export type Profile = {
 	duration?: string
 	region?: string
 	earliestStartDate?: Date
+	sdg?: number
 }
 
 const ANIMATIONS =  {
@@ -21,7 +22,7 @@ const ANIMATIONS =  {
 }
 
 export default function Home() {
-	const [question, setQuestion] = useState(0);
+	const [question, setQuestion] = useState(1);
 	const [profile, setProfile] = useState<Profile>({});
 	const [progress, setProgress] = useState(0);
 	
@@ -86,6 +87,18 @@ export default function Home() {
 		setProfile({
 			...profile,
 			earliestStartDate: startDate
+		})
+		
+		setProgress(100);
+		setQuestion(questionFlow.options[0].next)
+		console.log(profile);
+	}
+	
+	function handleSDGSelection(sdg: number) {
+		const questionFlow = FLOW[question] as Question;
+		setProfile({
+			...profile,
+			sdg: sdg
 		})
 		
 		setProgress(100);
@@ -185,6 +198,17 @@ export default function Home() {
 							exit={ANIMATIONS.exit}
 						>
 						<QuestionBox item={FLOW[5]} setAnswer={handleStartDateSelection}/>
+						</motion.div>
+					)}
+					
+					{ question == 6 && (
+						<motion.div
+							key={6}
+							initial={ANIMATIONS.initial}
+							animate={ANIMATIONS.animate}
+							exit={ANIMATIONS.exit}
+						>
+							<QuestionBox item={FLOW[6]} setAnswer={handleSDGSelection}/>
 						</motion.div>
 					)}
 				</AnimatePresence>
