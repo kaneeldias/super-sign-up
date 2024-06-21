@@ -5,6 +5,7 @@ import GTaSubProductButton from "@/components/GTaSubProductButton";
 import NextButton from "@/components/NextButton";
 import StartDatePicker from "@/components/StartDatePicker";
 import SDGSelector from "@/components/SDGSelector";
+import Image from "next/image";
 
 type Props = {
 	item: Question
@@ -16,8 +17,14 @@ export default function QuestionBox(props: Props) {
 		<div className={`flex flex-col items-start space-y-5 rounded-md p-10 bg-white md:max-w-5xl`}>
 			<div className={`flex flex-col space-y-2`}>
 				
+				{ props.item.answersType == "Product" && (
+					<div className={`flex flex-col w-32 md:w-64 -m-1 mb-3 items-center justify-center`}>
+						<Image src={"/aiesec-logo.png"} alt={"AIESEC Logo"} width={600} height={100}/>
+					</div>
+				)}
+				
 				{ props.item.preText && (
-					<div className={`font-extralight text-gray text-sm md:text-lg`}>{props.item.preText}</div>
+					<div className={`font-extralight text-gray text-sm md:text-lg ${props.item.answersType == "Product" ? "pb-10" : ""}`}>{props.item.preText}</div>
 				)}
 				
 				<div className={`font-bold text-gray text-lg md:text-3xl leading-relaxed md:leading-relaxed`}>{props.item.question}</div>

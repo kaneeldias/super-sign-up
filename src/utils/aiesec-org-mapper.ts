@@ -47,6 +47,7 @@ export function getUrl(profile: Profile) {
 		baseUrl += `&earliest_start_date=${getDateStringFromDate(profile.earliestStartDate)}`;
 	}
 	
+	baseUrl += "&utm_source=Website&utm_medium=Stories&utm_campaign=MLT-SuperSignup&utm_term=SS&utm_content=General"
 	return baseUrl;
 }
 
