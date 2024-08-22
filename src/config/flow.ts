@@ -12,8 +12,6 @@ type Flow = {
 	[key: number]: Question
 }
 
-
-
 export const FLOW: Flow = {
 	0: {
 		question: "AIESEC is a global youth-led organization that develops leadership skills through international internships and volunteer experiences.",

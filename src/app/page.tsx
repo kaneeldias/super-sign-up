@@ -134,7 +134,6 @@ export default function Home() {
 						</motion.div>
 					)}
 				
-				
 					{ question == 0 && (
 						<motion.div
 							key={0}
