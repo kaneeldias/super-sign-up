@@ -17,7 +17,6 @@ export default function ProductButton(props: Props) {
 			bgColor = "bg-gta-green";
 			text = "Intern Abroad";
 			break;
-	
 	}
 	
 	return (

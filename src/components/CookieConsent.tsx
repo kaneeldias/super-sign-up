@@ -4,6 +4,7 @@ import {Modal} from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import {useEffect, useState} from "react";
 import {HotjarSnippet} from "@/components/HotJar";
+import {GoogleAnalytics} from "@/components/GoogleAnalytics";
 
 
 export default function CookieConsent() {
@@ -12,7 +13,9 @@ export default function CookieConsent() {
 
 	useEffect(() => {
 		if(localStorage.getItem("cookies_accepted")){
-			setCookieConsent(!localStorage.getItem("cookies_accepted"));
+			if (localStorage.getItem("cookies_accepted") == "true") {
+				setCookieConsent(true);
+			}
 		} else {
 			cookieBanner.open();
 		}
@@ -49,7 +52,10 @@ export default function CookieConsent() {
 			</Modal>
 
 			{ cookieConsent &&
-				<HotjarSnippet/>
+				<>
+					<HotjarSnippet/>
+					<GoogleAnalytics/>
+				</>
 			}
 		</>
 	);
