@@ -4,7 +4,7 @@ import "./globals.css";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
-import {HotjarSnippet} from "@/components/HotJar";
+import CookieConsent from "@/components/CookieConsent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-          <HotjarSnippet/>
           <ColorSchemeScript />
       </head>
-      <body className={`flex ${inter.className} h-full w-full min-h-screen min-w-screen`}>
+      <body className={`flex ${inter.className} h-full w-full min-h-screen min-w-screen flex-col`}>
           <MantineProvider>
+              <CookieConsent/>
               {children}
           </MantineProvider>
       </body>

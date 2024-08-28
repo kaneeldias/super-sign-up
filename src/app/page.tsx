@@ -157,24 +157,26 @@ export default function Home() {
 					)}
 				
 					{ question == 2 && (
-						<motion.div
-							key={2}
-							initial={ANIMATIONS.initial}
-							animate={ANIMATIONS.animate}
-							exit={ANIMATIONS.exit}
-						>
-						<QuestionBox item={FLOW[2]} setAnswer={handleGTaSubProductSelection}/>
-						</motion.div>
+						<>
+							<motion.div
+								key={2}
+								initial={ANIMATIONS.initial}
+								animate={ANIMATIONS.animate}
+								exit={ANIMATIONS.exit}
+							>
+								<QuestionBox item={FLOW[2]} setAnswer={handleGTaSubProductSelection}/>
+							</motion.div>
+						</>
 					)}
-				
-					{ question == 3 && (
+
+					{question == 3 && (
 						<motion.div
 							key={3}
 							initial={ANIMATIONS.initial}
 							animate={ANIMATIONS.animate}
 							exit={ANIMATIONS.exit}
 						>
-						<QuestionBox item={FLOW[3]} setAnswer={handleDurationSelection}/>
+							<QuestionBox item={FLOW[3]} setAnswer={handleDurationSelection}/>
 						</motion.div>
 					)}
 				
