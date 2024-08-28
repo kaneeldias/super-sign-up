@@ -36,7 +36,7 @@ export default function CookieConsent() {
 	return (
 		<>
 			<Modal opened={opened} onClose={cookieBanner.close} centered withCloseButton={false} closeOnClickOutside={false}>
-				<div className={`flex flex-col space-y-5`}>
+				<div className={`flex flex-col space-y-5 p-3`}>
 					<div className={`text-xl font-bold`}>Cookie Consent</div>
 					<div>
 						AIESEC International Inc. requests your consent to store cookies on your terminal equipment and to collect
