@@ -30,5 +30,12 @@ export function recordStarted() {
 }
 
 export function recordCompleted(profile: Profile) {
-    ReactGA.event("completed", {profile: profile});
+    ReactGA.event("completed", {
+        product: profile.product,
+        sdg: profile.sdg,
+        gtaSubProduct: profile.gtaSubProduct,
+        duration: profile.duration,
+        region: profile.region,
+        startDate: profile.earliestStartDate?.toISOString().split('T')[0],
+    });
 }
