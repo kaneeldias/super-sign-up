@@ -6,7 +6,6 @@ import {FLOW, Question} from "@/config/flow";
 import {getUrl} from "@/utils/aiesec-org-mapper";
 import {Loader, Progress} from "@mantine/core";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import * as sea from "node:sea";
 
 export type Profile = {
 	product?: "GV" | "GTa" | "GTe",
