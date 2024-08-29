@@ -6,6 +6,12 @@ import {FLOW, Question} from "@/config/flow";
 import {getUrl} from "@/utils/aiesec-org-mapper";
 import {Loader, Progress} from "@mantine/core";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {
+	recordCompleted,
+	recordDurationSelection, recordGTaSubProductSelection,
+	recordProductSelection,
+	recordRegionSelection, recordSDGSelection, recordStartDateSelection, recordStarted
+} from "@/utils/ga4-utils";
 
 export type Profile = {
 	product?: "GV" | "GTa" | "GTe",
@@ -31,6 +37,9 @@ export default function Home() {
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
 
+	useEffect(() => {
+		recordStarted();
+	}, [])
 
 	useEffect(() => {
 		console.log(searchParams.toString());
@@ -108,41 +117,42 @@ export default function Home() {
 	function handleProductSelection(product: "GV" | "GTa" | "GTe") {
 		setProgress(30);
 		router.push(createQueryString('product', product))
-		console.log(profile);
+		recordProductSelection(product);
 	}
 	
 	function handleDurationSelection(duration: string) {
 		setProgress(70);
 		router.push(createQueryString('duration', duration.split(" ")[0].toLowerCase()))
-		console.log(profile);
+		recordDurationSelection(duration)
 	}
 	
 	function handleRegionSelection(region: string) {
 		setProgress(90);
 		router.push(createQueryString('region', region))
-		console.log(profile);
+		recordRegionSelection(region);
 	}
 	
 	function handleGTaSubProductSelection(subProduct: string) {
 		setProgress(50);
 		router.push(createQueryString('gtaSubProduct', subProduct))
-		console.log(profile);
+		recordGTaSubProductSelection(subProduct);
 	}
 	
 	function handleStartDateSelection(startDate: Date) {
 		setProgress(100);
 		router.push(createQueryString('startDate', startDate.toISOString().split('T')[0]));
-		console.log(profile);
+		recordStartDateSelection(startDate.toISOString().split('T')[0]);
 	}
 	
 	function handleSDGSelection(sdg: number) {
 		setProgress(100);
 		router.push(createQueryString('sdg', sdg.toString()))
-		console.log(profile);
+		recordSDGSelection(sdg);
 	}
 	
 	useEffect(() => {
 		if (question == -1) {
+			recordCompleted(profile);
 			redirectUser();
 		}
 	}, [question])

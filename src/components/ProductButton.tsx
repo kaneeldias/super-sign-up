@@ -1,5 +1,4 @@
 import { motion } from "framer-motion"
-import {recordProductSelection} from "@/utils/ga4-utils";
 
 type Props = {
 	type: "GV" | "GTe" | "GTa";
@@ -21,8 +20,6 @@ export default function ProductButton(props: Props) {
 	}
 
 	function buttonClick() {
-		recordProductSelection();
-		console.log("fuuu");
 		props.onClick();
 	}
 	
