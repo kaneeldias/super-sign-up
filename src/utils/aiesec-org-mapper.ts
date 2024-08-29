@@ -32,7 +32,7 @@ export function getUrl(profile: Profile) {
 		baseUrl += `&sub_products=${subProductsMap[profile.gtaSubProduct]}`;
 	}
 	
-	if (profile.duration && profile.duration != "I am flexible") {
+	if (profile.duration && profile.duration != "i") {
 		let durationString = profile.duration.split(" ")[0].toLowerCase()
 		baseUrl += `&duration_type=${durationString}`;
 	}

@@ -1,10 +1,12 @@
 "use client"
 import {AnimatePresence, motion} from "framer-motion";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import QuestionBox from "@/components/QuestionBox";
 import {FLOW, Question} from "@/config/flow";
 import {getUrl} from "@/utils/aiesec-org-mapper";
 import {Loader, Progress} from "@mantine/core";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import * as sea from "node:sea";
 
 export type Profile = {
 	product?: "GV" | "GTa" | "GTe",
@@ -25,84 +27,118 @@ export default function Home() {
 	const [question, setQuestion] = useState(1);
 	const [profile, setProfile] = useState<Profile>({});
 	const [progress, setProgress] = useState(0);
-	
-	function handleNext() {
+	const [completedQuestions, setCompletedQuestions] = useState<number[]>([]);
+	const router = useRouter();
+	const pathname = usePathname()
+	const searchParams = useSearchParams()
+
+
+	useEffect(() => {
+		console.log(searchParams.toString());
+		const completedQuestionsTemp = [];
+		const profileTemp: Profile = {};
+
+		if (searchParams.has("product")) {
+			profileTemp.product = searchParams.get("product") as "GV" | "GTa" | "GTe";
+			completedQuestionsTemp.push(1);
+		}
+
+		if (searchParams.has("sdg")) {
+			profileTemp.sdg = parseInt(searchParams.get("sdg")!);
+			completedQuestionsTemp.push(6);
+		}
+
+		if (searchParams.has("gtaSubProduct")) {
+			profileTemp.gtaSubProduct = searchParams.get("gtaSubProduct")!;
+			completedQuestionsTemp.push(2);
+		}
+
+		if (searchParams.has("duration")) {
+			profileTemp.duration = searchParams.get("duration")!;
+			completedQuestionsTemp.push(3);
+		}
+
+		if (searchParams.has("region")) {
+			profileTemp.region = searchParams.get("region")!;
+			completedQuestionsTemp.push(4);
+		}
+
+		if (searchParams.has("startDate")) {
+			profileTemp.earliestStartDate = new Date(searchParams.get("startDate")!);
+			completedQuestionsTemp.push(5);
+		}
+
+		setProfile(profileTemp);
+		setCompletedQuestions(completedQuestionsTemp);
+		setQuestion(findNextQuestion(1, profileTemp, completedQuestionsTemp));
+	}, [searchParams]);
+
+	function findNextQuestion(question:number, profile: Profile, completedQuestions: number[]): number {
+		console.log("finding next question...")
+		console.log("completed questions:", completedQuestions);
+
+
 		const questionFlow = FLOW[question] as Question;
-		
+		let nextQuestion = questionFlow.options[0].next
+		if (question === 1) {
+			if (completedQuestions.includes(1)) nextQuestion = questionFlow.options.find(option => option.value == profile.product)!.next
+			else return 1;
+		}
+
+		if (completedQuestions.includes(nextQuestion)) {
+			return findNextQuestion(nextQuestion, profile, completedQuestions);
+		}
+		return nextQuestion;
+	}
+
+	const createQueryString = useCallback(
+		(name: string, value: string) => {
+			const params = new URLSearchParams(searchParams.toString())
+			params.set(name, value)
+
+			return pathname + '?' + params.toString()
+		},
+		[searchParams]
+	)
+
+	function handleNext() {
 		setProgress(10);
-		setQuestion(questionFlow.options[0].next);
 		console.log(profile);
 	}
 	
 	function handleProductSelection(product: "GV" | "GTa" | "GTe") {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			product: product
-		});
-		
 		setProgress(30);
-		setQuestion(questionFlow.options.find(option => option.value == product)!.next)
+		router.push(createQueryString('product', product))
 		console.log(profile);
 	}
 	
 	function handleDurationSelection(duration: string) {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			duration: duration
-		});
-		
 		setProgress(70);
-		setQuestion(questionFlow.options.find(option => option.value == duration)!.next)
+		router.push(createQueryString('duration', duration.split(" ")[0].toLowerCase()))
 		console.log(profile);
 	}
 	
 	function handleRegionSelection(region: string) {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			region: region
-		});
-		
 		setProgress(90);
-		setQuestion(questionFlow.options.find(option => option.value == region)!.next)
+		router.push(createQueryString('region', region))
 		console.log(profile);
 	}
 	
 	function handleGTaSubProductSelection(subProduct: string) {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			gtaSubProduct: subProduct
-		});
-		
 		setProgress(50);
-		setQuestion(questionFlow.options.find(option => option.value == subProduct)!.next)
+		router.push(createQueryString('gtaSubProduct', subProduct))
 		console.log(profile);
 	}
 	
 	function handleStartDateSelection(startDate: Date) {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			earliestStartDate: startDate
-		})
-		
 		setProgress(100);
-		setQuestion(questionFlow.options[0].next)
+		router.push(createQueryString('startDate', startDate.toISOString().split('T')[0]));
 		console.log(profile);
 	}
 	
 	function handleSDGSelection(sdg: number) {
-		const questionFlow = FLOW[question] as Question;
-		setProfile({
-			...profile,
-			sdg: sdg
-		})
-		
 		setProgress(100);
-		setQuestion(questionFlow.options[0].next)
+		router.push(createQueryString('sdg', sdg.toString()))
 		console.log(profile);
 	}
 	
