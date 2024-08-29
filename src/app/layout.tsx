@@ -5,6 +5,7 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import CookieConsent from "@/components/CookieConsent";
+import {Suspense} from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body className={`flex ${inter.className} h-full w-full min-h-screen min-w-screen flex-col`}>
           <MantineProvider>
               <CookieConsent/>
-              {children}
+              <Suspense>
+                  {children}
+              </Suspense>
           </MantineProvider>
       </body>
     </html>
