@@ -12,7 +12,7 @@ export default function CV() {
 	const borderColor = file ? "border-aiesec-blue" : "border-yellow";
 
 	function evaluateCV() {
-		alert("This application sucks bro");
+		alert("This CV sucks bro");
 	}
 
 	return (
