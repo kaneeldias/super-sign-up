@@ -1,51 +1,30 @@
 "use client"
 
-import {Button, FileButton, FileInput, rem} from "@mantine/core";
-
-import { IconFileCv } from '@tabler/icons-react';
-import Image from "next/image";
+import {CvInfo} from "@/schemas/cv_info";
 import {useState} from "react";
+import CVInfo from "@/components/CVinfo";
+import CVUpload from "@/components/CVUpload";
+import {IconCaretLeft, IconCaretRight, IconFileArrowLeft} from "@tabler/icons-react";
+import {rem} from "@mantine/core";
 
 export default function CV() {
-	const icon = <IconFileCv style={{ width: rem(18), height: rem(18) }} stroke={1.5} />;
-	const [file, setFile] = useState<File | null>(null);
-	const borderColor = file ? "border-aiesec-blue" : "border-yellow";
-
-	function evaluateCV() {
-		alert("This CV sucks bro");
-	}
+	const [cvInfo, setCvInfo] = useState<CvInfo | null>(null);
 
 	return (
-		<div className={`flex w-full h-full items-center justify-center text-white`}>
-			<div className={`bg-bg-dark p-5 rounded-md flex-row min-w-96 space-y-5 ${borderColor} border-solid border-b-2`}>
-				<div>
-					<div className={`text-xl font-bold`}>Upload your resume</div>
-					<div className={`text-sm text-light-gray`}>Get free personalized inputs and search for opportunities
-						that suit you
+		<div className={`flex w-full h-full min-h-screen min-w-screen items-center justify-center m-5`}>
+			{!cvInfo && <CVUpload setCvInfo={setCvInfo} />}
+			{cvInfo &&
+				<div className={`flex flex-row space-x-10 items-center`}>
+					<CVInfo cvInfo={cvInfo} />
+					<div className={`flex flex-row space-x-5 items-center hover:bg-black hover:bg-opacity-10 p-5 rounded-md transition-all cursor-pointer`}>
+						<div className={`flex flex-row space-x-5 bg-white bg-opacity-50 rounded-full`}>
+							<IconCaretRight style={{ width: rem(60), height: rem(60) }} stroke={0.5} />
+						</div>
+
+						<div className={`font-bold`}>Find Opportunities</div>
 					</div>
 				</div>
-				<div>
-					<FileInput
-						leftSection={icon}
-						placeholder="Your CV"
-						leftSectionPointerEvents="none"
-						value={file ? file : null}
-						onChange={setFile}
-						accept={"application/pdf"}
-					/>
-				</div>
-
-				{ !file &&
-					<FileButton onChange={setFile} accept="pdf">
-						{(props) => <Button {...props} color={"yellow"}>Upload resume</Button>}
-					</FileButton>
-				}
-
-				{ file && <Button color={"blue"} onClick={evaluateCV}>Get started</Button> }
-
-				<Image src={"/aiesec-logo-black.png"} alt={"AIESEC Logo"} width={200} height={100} className={`-ml-1 pt-10`}/>
-
-			</div>
+			}
 		</div>
 	)
 }

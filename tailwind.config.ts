@@ -24,6 +24,8 @@ const config: Config = {
       'light-gray': '#F5F5F5',
       'yellow': '#ffc845',
       'bg-dark': '#3d3b3b',
+      'black': '#000000',
+      'green': '#00c16e'
     }
   },
   plugins: [],

@@ -1,0 +1,54 @@
+{
+  "name": {
+    "type": "string"
+  },
+  "work_experience": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "end_date": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "educational_experience": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "institution": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "study_type": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "end_date": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
