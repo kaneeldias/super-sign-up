@@ -3,7 +3,7 @@ import OpenAI from "openai";
 // @ts-ignore
 import {TextContentBlock} from "openai/src/resources/beta/threads/messages";
 
-const openai = new OpenAI();
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 export async function POST(request: NextRequest)	 {
 	const formData = await request.formData();
