@@ -1,6 +1,5 @@
 import {WorkExperience as WorkExperienceType} from "@/schemas/cv_info";
 import React, {useEffect, useState} from "react";
-import {DatePickerInput} from "@mantine/dates";
 import MiniBox from "@/components/Mini/MiniBox";
 import MiniBoxTitle from "@/components/Mini/MiniBoxTitle";
 import TextInput from "@/components/Inputs/TextInput";

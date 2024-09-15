@@ -2,8 +2,6 @@
 
 import {CvInfo} from "@/schemas/cv_info";
 import React, {useState} from "react";
-import {Button, Collapse} from "@mantine/core";
-import WorkExperience from "@/components/WorkExperience";
 import WorkExperienceList from "@/components/WorkExperienceList";
 import EducationalBackgroundList from "@/components/EducationalBackgroundList";
 import ContainerBox from "@/components/Container/ContainerBox";

@@ -1,6 +1,6 @@
 "use client"
 
-import {Button as MantineButton, Loader} from "@mantine/core";
+import {Button as MantineButton} from "@mantine/core";
 import {ReactNode} from "react";
 
 type Props = {

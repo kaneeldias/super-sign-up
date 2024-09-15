@@ -1,6 +1,5 @@
 "use client"
 
-import {TextInput as MantineTextInput} from "@mantine/core";
 import React from "react";
 import {DatePickerInput, DateValue} from "@mantine/dates";
 

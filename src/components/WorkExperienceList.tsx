@@ -1,4 +1,3 @@
-import {Button, Collapse} from "@mantine/core";
 import {useState} from "react";
 import {WorkExperience as WorkExperienceType} from "@/schemas/cv_info";
 import WorkExperience from "@/components/WorkExperience";

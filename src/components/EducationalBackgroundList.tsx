@@ -1,9 +1,7 @@
-import {Button, Collapse} from "@mantine/core";
 import {useState} from "react";
 import {EducationalBackground as EducationalBackgroundType} from "@/schemas/cv_info";
 import EducationalBackground from "@/components/EducationalBackground";
 import CollapsibleSection from "@/components/Container/CollapsibleSection";
-import WorkExperience from "@/components/WorkExperience";
 
 type Props = {
     educationalBackground: EducationalBackgroundType[];
