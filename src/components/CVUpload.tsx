@@ -6,8 +6,14 @@ import FileInput from "@/components/Inputs/FileInput";
 import ContainerHeader from "@/components/Container/ContainerHeader";
 import Button from "@/components/Inputs/Button";
 import EvaluatingCVLoader from "@/components/EvaluatingCVLoader";
+import {AnimatePresence, motion} from "framer-motion";
 
 const EVALUATE_ENDPOINT = "/api/cv/evaluate";
+const ANIMATIONS =  {
+    initial: {opacity: 0 },
+    animate: {opacity: 1, transition: { delay: 0 }},
+    exit: {opacity: 0 }
+}
 
 type Props = {
     setCvInfo: (cvInfo: CvInfo) => void;
@@ -35,26 +41,41 @@ export default function CVUpload(props: Props) {
     }
 
     return (
-        <>
+        <AnimatePresence mode="wait">
             {!loading &&
-                <ContainerBox borderColor={borderColor}>
+                <motion.div
+                    key={1}
+                    initial={ANIMATIONS.initial}
+                    animate={ANIMATIONS.animate}
+                    exit={ANIMATIONS.exit}
+                >
+                    <ContainerBox borderColor={borderColor}>
                     <ContainerHeader
                         title={"Upload your CV"}
                         subtitle={"Get free personalized inputs and search for opportunities that suit you"}
-                    />
+                            />
 
-                    <FileInput file={file} setFile={setFile}/>
+                            <FileInput file={file} setFile={setFile}/>
 
-                    {file &&
-                        <Button onClick={evaluateCV} disabled={loading}>Evaluate resume</Button>
-                    }
-                </ContainerBox>
+                            {file &&
+                                <Button onClick={evaluateCV} disabled={loading}>Evaluate resume</Button>
+                            }
+                    </ContainerBox>
+                </motion.div>
             }
+
 
             {loading &&
-                <EvaluatingCVLoader/>
+                <motion.div
+                    key={2}
+                    initial={ANIMATIONS.initial}
+                    animate={ANIMATIONS.animate}
+                    exit={ANIMATIONS.exit}
+                >
+                    <EvaluatingCVLoader/>
+                </motion.div>
             }
-        </>
+        </AnimatePresence>
 
 
     )
