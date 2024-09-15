@@ -1,7 +1,10 @@
-import {TextInput} from "@mantine/core";
 import {WorkExperience as WorkExperienceType} from "@/schemas/cv_info";
 import React, {useEffect, useState} from "react";
 import {DatePickerInput} from "@mantine/dates";
+import MiniBox from "@/components/Mini/MiniBox";
+import MiniBoxTitle from "@/components/Mini/MiniBoxTitle";
+import TextInput from "@/components/Inputs/TextInput";
+import DateInput from "@/components/Inputs/DateInput";
 
 type Props = {
 	experience: WorkExperienceType
@@ -20,32 +23,29 @@ export default function WorkExperience(props: Props) {
 	}, [position, company, start_date, end_date, location]);
 
 	return (
-		<div className={`flex flex-col space-y-2 bg-black bg-opacity-30 rounded-r-md p-3 border-yellow border-l-4 border-solid`}>
-			<div className={`font-bold text-sm bg-yellow rounded-r-md -mt-3 -ml-3 px-2 bg-opacity-20`}>{position} at {company}</div>
+		<MiniBox borderColor={`border-yellow`}>
+			<MiniBoxTitle color={"yellow"}>{position} at {company}</MiniBoxTitle>
 
 			<div className={`flex flex-row space-x-5`}>
-				<TextInput label="Company" value={company} className={`w-1/2`}
-						   onChange={(event) => setCompany(event.currentTarget.value)}/>
-				<TextInput label="Position" value={position} className={`w-1/2`}
-						   onChange={(event) => setPosition(event.currentTarget.value)}/>
+				<TextInput label="Company" value={company} className={`w-1/2`} setValue={setCompany}/>
+				<TextInput label="Position" value={position} className={`w-1/2`} setValue={setPosition}/>
 			</div>
+
 			<div className={`flex flex-row space-x-5`}>
-				<DatePickerInput
+				<DateInput
 					className={`w-1/3`}
 					label="Start date"
 					value={start_date}
-					onChange={setStartDate}
+					setValue={setStartDate}
 				/>
-				<DatePickerInput
+				<DateInput
 					className={`w-1/3`}
 					label="End date"
 					value={end_date}
-					onChange={setEndDate}
+					setValue={setEndDate}
 				/>
-				<TextInput label="Location" value={location}
-						   className={`w-1/3`}
-						   onChange={(event) => setLocation(event.currentTarget.value)}/>
+				<TextInput label="Location" value={location} className={`w-1/3`} setValue={setLocation}/>
 			</div>
-		</div>
+		</MiniBox>
 	);
 }

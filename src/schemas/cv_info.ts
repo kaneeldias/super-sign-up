@@ -1,5 +1,9 @@
 export type CvInfo = {
-    name: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    country: string;
     work_experience: WorkExperience[];
     educational_background: EducationalBackground[];
 }
