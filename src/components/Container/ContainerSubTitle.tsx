@@ -6,7 +6,7 @@ type Props = {
 
 export default function ContainerSubTitle(props: Props) {
     return (
-        <div className={`text-sm text-light-gray font-light`}>
+        <div className={`text-sm text-gray font-light`}>
             {props.children}
         </div>
     )

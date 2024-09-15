@@ -22,7 +22,6 @@ export default function WorkExperienceList(props: Props) {
     return (
             <CollapsibleSection
                 title={"Work Experience"}
-                color={"yellow"}
             >
                 {workExperience.map((experience, index) => (
                     <WorkExperience key={index} experience={experience}

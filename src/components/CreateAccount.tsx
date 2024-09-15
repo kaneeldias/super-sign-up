@@ -17,6 +17,7 @@ export default function CreateAccount(props: Props) {
     const [firstName, setFirstName] = useState<string>(props.cvInfo.first_name);
     const [lastName, setLastName] = useState<string>(props.cvInfo.last_name);
     const [email, setEmail] = useState<string>(props.cvInfo.email);
+    const [phone, setPhone] = useState<string>(props.cvInfo.phone);
     const [password, setPassword] = useState<string>("");
     const [offices, setOffices] = useState<Offices>([]);
     const [selectedOffice, setSelectedOffice] = useState<string | null>(null);
@@ -92,6 +93,13 @@ export default function CreateAccount(props: Props) {
                     label="Email"
                     value={email}
                     setValue={setEmail}
+                />
+
+                <TextInput
+                    type={"tel"}
+                    label="Phone"
+                    value={phone}
+                    setValue={setPhone}
                 />
 
                 <TextInput

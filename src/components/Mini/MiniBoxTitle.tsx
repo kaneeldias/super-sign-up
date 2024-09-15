@@ -18,9 +18,9 @@ export default function MiniBoxTitle(props: Props) {
 function getBgColor(color: string | undefined): string {
     switch (color) {
         case "green":
-            return "bg-green";
+            return "bg-[#16453e]";
         case "yellow":
-            return "bg-yellow";
+            return "bg-[#a6915c]";
         default:
             return "bg-aiesec-blue";
     }

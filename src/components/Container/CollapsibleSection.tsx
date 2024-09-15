@@ -4,14 +4,14 @@ import {Button, Collapse} from "@mantine/core";
 type Props = {
     title: string;
     children: ReactNode;
-    color: "yellow" | "green";
+    color?: "yellow" | "green";
 }
 
 export default function CollapsibleSection(props: Props) {
     let textColor = getTextColor(props.color);
     let buttonColor = getButtonColor(props.color);
 
-    const [opened, setOpened] = useState(true);
+    const [opened, setOpened] = useState(false);
 
     return (
         <>
@@ -30,24 +30,24 @@ export default function CollapsibleSection(props: Props) {
     )
 }
 
-function getTextColor(color: string): string {
+function getTextColor(color?: string): string {
     switch (color) {
         case "green":
-            return "text-green";
+            return "text-[#16453e]";
         case "yellow":
-            return "text-yellow";
+            return "text-[#a6915c]";
         default:
             return "text-aiesec-blue";
     }
 }
 
-function getButtonColor(color: string): string {
+function getButtonColor(color?: string): string {
     switch (color) {
         case "green":
             return "green";
         case "yellow":
             return "yellow";
         default:
-            return "aiesec-blue";
+            return "blue";
     }
 }

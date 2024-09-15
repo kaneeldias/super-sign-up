@@ -23,7 +23,6 @@ export default function EducationalBackgroundList(props: Props) {
         <>
             <CollapsibleSection
                 title={"Educational Background"}
-                color={"green"}
             >
                 {educationalBackground.map((experience, index) => (
                     <EducationalBackground key={index} experience={experience}

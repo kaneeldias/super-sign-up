@@ -5,6 +5,7 @@ import ContainerBox from "@/components/Container/ContainerBox";
 import FileInput from "@/components/Inputs/FileInput";
 import ContainerHeader from "@/components/Container/ContainerHeader";
 import Button from "@/components/Inputs/Button";
+import EvaluatingCVLoader from "@/components/EvaluatingCVLoader";
 
 const EVALUATE_ENDPOINT = "/api/cv/evaluate";
 
@@ -34,21 +35,27 @@ export default function CVUpload(props: Props) {
     }
 
     return (
-        <ContainerBox borderColor={borderColor}>
-            <ContainerHeader
-                title={"Upload your CV"}
-                subtitle={"Get free personalized inputs and search for opportunities that suit you"}
-            />
+        <>
+            {!loading &&
+                <ContainerBox borderColor={borderColor}>
+                    <ContainerHeader
+                        title={"Upload your CV"}
+                        subtitle={"Get free personalized inputs and search for opportunities that suit you"}
+                    />
 
-            <FileInput file={file} setFile={setFile}/>
+                    <FileInput file={file} setFile={setFile}/>
 
-            {file &&
-                <Button onClick={evaluateCV} disabled={loading}>Evaluate resume</Button>
+                    {file &&
+                        <Button onClick={evaluateCV} disabled={loading}>Evaluate resume</Button>
+                    }
+                </ContainerBox>
             }
 
-            <Image src={"/aiesec-logo-black.png"} alt={"AIESEC Logo"} width={200} height={100}
-                   className={`-ml-1 pt-10`}/>
-        </ContainerBox>
+            {loading &&
+                <EvaluatingCVLoader/>
+            }
+        </>
+
 
     )
 }

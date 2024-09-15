@@ -22,8 +22,8 @@ export default function WorkExperience(props: Props) {
 	}, [position, company, start_date, end_date, location]);
 
 	return (
-		<MiniBox borderColor={`border-yellow`}>
-			<MiniBoxTitle color={"yellow"}>{position} at {company}</MiniBoxTitle>
+		<MiniBox>
+			<MiniBoxTitle>{position} at {company}</MiniBoxTitle>
 
 			<div className={`flex flex-row space-x-5`}>
 				<TextInput label="Company" value={company} className={`w-1/2`} setValue={setCompany}/>

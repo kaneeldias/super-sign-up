@@ -23,8 +23,8 @@ export default function EducationalBackground(props: Props) {
 	}, [institution, area, study_type, start_date, end_date, location]);
 
 	return (
-		<MiniBox borderColor={"border-green"}>
-			<MiniBoxTitle color={"green"}>{institution}</MiniBoxTitle>
+		<MiniBox>
+			<MiniBoxTitle>{institution}</MiniBoxTitle>
 
 			<div className={`flex flex-row space-x-5`}>
 				<TextInput label="Institution" value={institution} className={`w-full`}
