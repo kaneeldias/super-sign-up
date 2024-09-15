@@ -8,6 +8,8 @@ type Props = {
     setValue: (value: string | null) => void;
     searchable?: boolean;
     data: {value: string, label: string}[] | undefined;
+    errors?: string[];
+    setIsDirty?: () => void;
 }
 
 export default function SelectInput(props: Props) {
@@ -15,10 +17,16 @@ export default function SelectInput(props: Props) {
         <MantineSelect
             label={props.label}
             data={props.data}
-            onChange={props.setValue}
+            onChange={(value) => {
+                props.setValue(value);
+                if (props.setIsDirty) {
+                    props.setIsDirty();
+                }
+            }}
             value={props.value}
             searchable={props.searchable}
             disabled={props.data === undefined}
+            error={props.errors ? props.errors[0] : null}
         />
     )
 }

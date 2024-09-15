@@ -9,6 +9,22 @@ import SelectInput from "@/components/Inputs/SelectInput";
 import Button from "@/components/Inputs/Button";
 import CheckboxInput from "@/components/Inputs/CheckboxInput";
 
+type ValidationResult = {
+    valid: boolean;
+    errors: string[];
+}
+
+type FormValidation = {
+    firstName: ValidationResult;
+    lastName: ValidationResult;
+    email: ValidationResult;
+    phone: ValidationResult;
+    password: ValidationResult;
+    selectedOffice: ValidationResult;
+    selectedAlignment: ValidationResult;
+    consentProvided: ValidationResult;
+}
+
 type Props = {
     cvInfo: CvInfo;
 }
@@ -25,6 +41,28 @@ export default function CreateAccount(props: Props) {
     const [selectedAlignment, setSelectedAlignment] = useState<string | null>(null);
     const [consentProvided, setConsentProvided] = useState<boolean>(false);
 
+    const [validations, setValidations] = useState<FormValidation>({
+        firstName: {valid: true, errors: []},
+        lastName: {valid: true, errors: []},
+        email: {valid: true, errors: []},
+        phone: {valid: true, errors: []},
+        password: {valid: true, errors: []},
+        selectedOffice: {valid: true, errors: []},
+        selectedAlignment: {valid: true, errors: []},
+        consentProvided: {valid: true, errors: []}
+    });
+
+    const [dirtyFields, setDirtyFields] = useState({
+        firstName: false,
+        lastName: false,
+        email: false,
+        phone: false,
+        password: false,
+        selectedOffice: false,
+        selectedAlignment: false,
+        consentProvided: false
+    });
+
     useEffect(() => {
         populateOfficeData()
     }, []);
@@ -33,6 +71,10 @@ export default function CreateAccount(props: Props) {
         populateAlignments();
         setSelectedAlignment(null);
     }, [selectedOffice]);
+
+    useEffect(() => {
+        validateForm(false);
+    }, [firstName, lastName, email, phone, password, selectedOffice, selectedAlignment, consentProvided]);
 
     async function populateOfficeData() {
         const offices = await getOffices();
@@ -64,6 +106,51 @@ export default function CreateAccount(props: Props) {
         return office?.alignments || [];
     }
 
+    function validateForm(strict: boolean): boolean {
+        const firstNameValidation = validateName(firstName);
+        const lastNameValidation = validateName(lastName);
+        const emailValidation = validateEmail(email);
+        const phoneValidation = validatePhone(phone);
+        const passwordValidation = validatePassword(password);
+        const selectedOfficeValidation = validateOffice(selectedOffice);
+        const selectedAlignmentValidation = validateAlignment(selectedAlignment);
+        const consentValidation = validateConsent(consentProvided);
+
+        setValidations({
+            firstName: strict || dirtyFields.firstName ? firstNameValidation : {valid: true, errors: []},
+            lastName: strict || dirtyFields.lastName ? lastNameValidation : {valid: true, errors: []},
+            email: strict || dirtyFields.email ? emailValidation : {valid: true, errors: []},
+            phone: strict || dirtyFields.phone ? phoneValidation : {valid: true, errors: []},
+            password: strict || dirtyFields.password ? passwordValidation : {valid: true, errors: []},
+            selectedOffice: strict || dirtyFields.selectedOffice ? selectedOfficeValidation : (selectedOffice === null) ? {valid: true, errors: []} : selectedOfficeValidation,
+            selectedAlignment: strict || dirtyFields.selectedAlignment ? selectedAlignmentValidation : (selectedAlignment === null) ? {valid: true, errors: []} : selectedAlignmentValidation,
+            consentProvided: strict || dirtyFields.consentProvided ? consentValidation : {valid: true, errors: []}
+        });
+
+        return firstNameValidation.valid && lastNameValidation.valid && emailValidation.valid && phoneValidation.valid
+            && passwordValidation.valid;
+    }
+
+    function submitForm() {
+        console.log(dirtyFields);
+
+        if (validateForm(true)) {
+            const data = {
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                phone: phone,
+                password: password,
+                office_id: selectedOffice,
+                alignment_id: selectedAlignment
+            }
+            console.log(data);
+        }
+
+        console.log("Form is invalid");
+    }
+
+
     return (
         <ContainerBox>
             <ContainerHeader
@@ -78,6 +165,8 @@ export default function CreateAccount(props: Props) {
                         label="First Name"
                         value={firstName}
                         setValue={setFirstName}
+                        errors={validations.firstName.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, firstName: true})}
                     />
 
                     <TextInput
@@ -85,6 +174,8 @@ export default function CreateAccount(props: Props) {
                         label="Last Name"
                         value={lastName}
                         setValue={setLastName}
+                        errors={validations.lastName.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, lastName: true})}
                     />
                 </div>
 
@@ -93,6 +184,8 @@ export default function CreateAccount(props: Props) {
                     label="Email"
                     value={email}
                     setValue={setEmail}
+                    errors={validations.email.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, email: true})}
                 />
 
                 <TextInput
@@ -100,6 +193,8 @@ export default function CreateAccount(props: Props) {
                     label="Phone"
                     value={phone}
                     setValue={setPhone}
+                    errors={validations.phone.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, phone: true})}
                 />
 
                 <TextInput
@@ -107,6 +202,8 @@ export default function CreateAccount(props: Props) {
                     label="Password"
                     value={password}
                     setValue={setPassword}
+                    errors={validations.password.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, password: true})}
                 />
 
                 <SelectInput
@@ -115,14 +212,18 @@ export default function CreateAccount(props: Props) {
                     setValue={setSelectedOffice}
                     value={selectedOffice}
                     searchable
+                    errors={validations.selectedOffice.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, selectedOffice: true})}
                 />
 
                 <SelectInput
-                    label="Local Office"
+                    label="Local Office/City"
                     data={alignments?.map((alignment) => ({value: alignment.alignment_id.toString(), label: alignment.value}))}
                     setValue={setSelectedAlignment}
                     value={selectedAlignment}
                     searchable
+                    errors={validations.selectedAlignment.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, selectedAlignment: true})}
                 />
 
                 <CheckboxInput
@@ -133,11 +234,12 @@ export default function CreateAccount(props: Props) {
                             By signing up, I agree to the <a href={"https://aiesec.org/assets/documents/AIESEC_Privacy_Policy2022.pdf"}>terms & privacy conditions.</a>
                         </div>
                     )}
+                    errors={validations.consentProvided.errors}
+                    setIsDirty={() => setDirtyFields({...dirtyFields, consentProvided: true})}
                 />
 
                 <Button
-                    disabled={!consentProvided}
-                    onClick={() => console.log("Create Account")}
+                    onClick={submitForm}
                 >
                     Create Account
                 </Button>
@@ -145,3 +247,50 @@ export default function CreateAccount(props: Props) {
         </ContainerBox>
     );
 }
+
+function validateName(name: string): ValidationResult {
+    const errors = [];
+    if (name.length < 2) errors.push("Name must be at least 2 characters long");
+    return {valid: errors.length === 0, errors};
+}
+
+function validateEmail(email: string): ValidationResult {
+    const errors = [];
+    if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) errors.push("Invalid email address");
+    return {valid: errors.length === 0, errors};
+}
+
+function validatePhone(phone: string): ValidationResult {
+    const errors = [];
+    if (phone.length < 5) errors.push("Phone number must be at least 5 digits long");
+
+    //can contain only +, " " and numbers
+    if (!(/^[0-9\+ ]+$/.test(phone))) errors.push("Invalid phone number");
+    return {valid: errors.length === 0, errors};
+}
+
+function validatePassword(password: string): ValidationResult {
+    const errors = [];
+    if (password.length < 8) errors.push("Password must be at least 8 characters long");
+    return {valid: errors.length === 0, errors};
+}
+
+function validateOffice(office: string | null): ValidationResult {
+    const errors = [];
+    if (!office) errors.push("You must select your country");
+    return {valid: errors.length === 0, errors};
+}
+
+function validateAlignment(alignment: string | null): ValidationResult {
+    const errors = [];
+    if (!alignment) errors.push("You must select your local office/city");
+    return {valid: errors.length === 0, errors};
+}
+
+function validateConsent(consent: boolean): ValidationResult {
+    const errors = [];
+    if (!consent) errors.push("You must agree to the terms & privacy conditions");
+    return {valid: errors.length === 0, errors};
+}
+
+
