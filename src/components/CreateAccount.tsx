@@ -8,6 +8,10 @@ import TextInput from "@/components/Inputs/TextInput";
 import SelectInput from "@/components/Inputs/SelectInput";
 import Button from "@/components/Inputs/Button";
 import CheckboxInput from "@/components/Inputs/CheckboxInput";
+import CreatingAccountLoader from "@/components/CreatingAccountLoader";
+import {CreatedUser} from "@/schemas/user";
+
+const REGISTRATION_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_ENDPOINT}/users.json`;
 
 type ValidationResult = {
     valid: boolean;
@@ -27,6 +31,7 @@ type FormValidation = {
 
 type Props = {
     cvInfo: CvInfo;
+    setCreatedUser: (user: CreatedUser) => void;
 }
 
 export default function CreateAccount(props: Props) {
@@ -40,6 +45,8 @@ export default function CreateAccount(props: Props) {
     const [alignments, setAlignments] = useState<Alignment[] | null>(null);
     const [selectedAlignment, setSelectedAlignment] = useState<string | null>(null);
     const [consentProvided, setConsentProvided] = useState<boolean>(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const [validations, setValidations] = useState<FormValidation>({
         firstName: {valid: true, errors: []},
@@ -132,119 +139,152 @@ export default function CreateAccount(props: Props) {
     }
 
     function submitForm() {
-        console.log(dirtyFields);
+        if (!validateForm(true)) return;
+        setLoading(true);
 
-        if (validateForm(true)) {
-            const data = {
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                phone: phone,
-                password: password,
-                office_id: selectedOffice,
-                alignment_id: selectedAlignment
+        const lc = alignments?.find((alignment) => alignment.alignment_id.toString() === selectedAlignment)?.id;
+        console.log(lc);
+
+        fetch(REGISTRATION_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    lc: lc,
+                    alignment_id: selectedAlignment
+                }
+            })
+        }).then((response) => {
+            if (response.ok) {
+                props.setCreatedUser({
+                    email: email,
+                    first_name: firstName,
+                    last_name: lastName
+                })
+            } else {
+                if (response.status === 422) {
+                    setValidations({...validations, email: {valid: false, errors: ["Email is already taken"]}});
+                }
             }
-            console.log(data);
-        }
-
-        console.log("Form is invalid");
+        }).catch((error) => {
+            alert("Error creating account");
+        }).finally(() => {
+            setLoading(false);
+        });
     }
 
-
     return (
-        <ContainerBox>
-            <ContainerHeader
-                title={"Create your account with AIESEC"}
-                subtitle={"We need a little bit more information to finish creating your account"}
-            />
-            <div className={`flex flex-col space-y-5`}>
+        <>
+        {!loading &&
+            <ContainerBox>
+                <ContainerHeader
+                    title={"Create your account with AIESEC"}
+                    subtitle={"We need a little bit more information to finish creating your account"}
+                />
+                <div className={`flex flex-col space-y-5`}>
 
-                <div className={`flex flex-row space-x-5 items-stretch`}>
+                    <div className={`flex flex-row space-x-5 items-stretch`}>
+                        <TextInput
+                            className={`w-1/2`}
+                            label="First Name"
+                            value={firstName}
+                            setValue={setFirstName}
+                            errors={validations.firstName.errors}
+                            setIsDirty={() => setDirtyFields({...dirtyFields, firstName: true})}
+                        />
+
+                        <TextInput
+                            className={`w-1/2`}
+                            label="Last Name"
+                            value={lastName}
+                            setValue={setLastName}
+                            errors={validations.lastName.errors}
+                            setIsDirty={() => setDirtyFields({...dirtyFields, lastName: true})}
+                        />
+                    </div>
+
                     <TextInput
-                        className={`w-1/2`}
-                        label="First Name"
-                        value={firstName}
-                        setValue={setFirstName}
-                        errors={validations.firstName.errors}
-                        setIsDirty={() => setDirtyFields({...dirtyFields, firstName: true})}
+                        type={"email"}
+                        label="Email"
+                        value={email}
+                        setValue={setEmail}
+                        errors={validations.email.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, email: true})}
                     />
 
                     <TextInput
-                        className={`w-1/2`}
-                        label="Last Name"
-                        value={lastName}
-                        setValue={setLastName}
-                        errors={validations.lastName.errors}
-                        setIsDirty={() => setDirtyFields({...dirtyFields, lastName: true})}
+                        type={"tel"}
+                        label="Phone"
+                        value={phone}
+                        setValue={setPhone}
+                        errors={validations.phone.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, phone: true})}
                     />
+
+                    <TextInput
+                        type={"password"}
+                        label="Password"
+                        value={password}
+                        setValue={setPassword}
+                        errors={validations.password.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, password: true})}
+                    />
+
+                    <SelectInput
+                        label="Country or Territory"
+                        data={offices.map((office) => ({value: office.id.toString(), label: office.name}))}
+                        setValue={setSelectedOffice}
+                        value={selectedOffice}
+                        searchable
+                        errors={validations.selectedOffice.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, selectedOffice: true})}
+                    />
+
+                    <SelectInput
+                        label="Local Office/City"
+                        data={alignments?.map((alignment) => ({
+                            value: alignment.alignment_id.toString(),
+                            label: alignment.value
+                        }))}
+                        setValue={setSelectedAlignment}
+                        value={selectedAlignment}
+                        searchable
+                        errors={validations.selectedAlignment.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, selectedAlignment: true})}
+                    />
+
+                    <CheckboxInput
+                        checked={consentProvided}
+                        setChecked={setConsentProvided}
+                        label={(
+                            <div>
+                                By signing up, I agree to the <a
+                                href={"https://aiesec.org/assets/documents/AIESEC_Privacy_Policy2022.pdf"}>terms & privacy
+                                conditions.</a>
+                            </div>
+                        )}
+                        errors={validations.consentProvided.errors}
+                        setIsDirty={() => setDirtyFields({...dirtyFields, consentProvided: true})}
+                    />
+
+                    <Button
+                        onClick={submitForm}
+                    >
+                        Create Account
+                    </Button>
                 </div>
+            </ContainerBox>
+        }
 
-                <TextInput
-                    type={"email"}
-                    label="Email"
-                    value={email}
-                    setValue={setEmail}
-                    errors={validations.email.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, email: true})}
-                />
-
-                <TextInput
-                    type={"tel"}
-                    label="Phone"
-                    value={phone}
-                    setValue={setPhone}
-                    errors={validations.phone.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, phone: true})}
-                />
-
-                <TextInput
-                    type={"password"}
-                    label="Password"
-                    value={password}
-                    setValue={setPassword}
-                    errors={validations.password.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, password: true})}
-                />
-
-                <SelectInput
-                    label="Country or Territory"
-                    data={offices.map((office) => ({value: office.id.toString(), label: office.name}))}
-                    setValue={setSelectedOffice}
-                    value={selectedOffice}
-                    searchable
-                    errors={validations.selectedOffice.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, selectedOffice: true})}
-                />
-
-                <SelectInput
-                    label="Local Office/City"
-                    data={alignments?.map((alignment) => ({value: alignment.alignment_id.toString(), label: alignment.value}))}
-                    setValue={setSelectedAlignment}
-                    value={selectedAlignment}
-                    searchable
-                    errors={validations.selectedAlignment.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, selectedAlignment: true})}
-                />
-
-                <CheckboxInput
-                    checked={consentProvided}
-                    setChecked={setConsentProvided}
-                    label={(
-                        <div>
-                            By signing up, I agree to the <a href={"https://aiesec.org/assets/documents/AIESEC_Privacy_Policy2022.pdf"}>terms & privacy conditions.</a>
-                        </div>
-                    )}
-                    errors={validations.consentProvided.errors}
-                    setIsDirty={() => setDirtyFields({...dirtyFields, consentProvided: true})}
-                />
-
-                <Button
-                    onClick={submitForm}
-                >
-                    Create Account
-                </Button>
-            </div>
-        </ContainerBox>
+        {loading && <CreatingAccountLoader/>}
+        </>
     );
 }
 
