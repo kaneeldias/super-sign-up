@@ -8,7 +8,7 @@ import TextInput from "@/components/Inputs/TextInput";
 import SelectInput from "@/components/Inputs/SelectInput";
 import Button from "@/components/Inputs/Button";
 import CheckboxInput from "@/components/Inputs/CheckboxInput";
-import CreatingAccountLoader from "@/components/CreatingAccountLoader";
+import CreatingAccountLoader from "@/components/Loaders/CreatingAccountLoader";
 import {CreatedUser} from "@/schemas/user";
 
 const REGISTRATION_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_ENDPOINT}/users.json`;

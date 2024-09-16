@@ -1,11 +1,10 @@
-import Image from "next/image";
 import {useState} from "react";
 import {CvInfo} from "@/schemas/cv_info";
 import ContainerBox from "@/components/Container/ContainerBox";
 import FileInput from "@/components/Inputs/FileInput";
 import ContainerHeader from "@/components/Container/ContainerHeader";
 import Button from "@/components/Inputs/Button";
-import EvaluatingCVLoader from "@/components/EvaluatingCVLoader";
+import EvaluatingCVLoader from "@/components/Loaders/EvaluatingCVLoader";
 import {AnimatePresence, motion} from "framer-motion";
 
 const EVALUATE_ENDPOINT = "/api/cv/evaluate";
@@ -17,17 +16,18 @@ const ANIMATIONS =  {
 
 type Props = {
     setCvInfo: (cvInfo: CvInfo) => void;
+    cvFile: File | null;
+    setCvFile: (file: File | null) => void;
 }
 
 export default function CVUpload(props: Props) {
-    const [file, setFile] = useState<File | null>(null);
-    const borderColor = file ? "border-aiesec-blue" : "border-yellow";
+    const borderColor = props.cvFile ? "border-aiesec-blue" : "border-yellow";
     const [loading, setLoading] = useState(false);
 
     async function evaluateCV() {
         setLoading(true);
         const formData = new FormData();
-        formData.append("file", file!);
+        formData.append("file", props.cvFile!);
 
         await fetch(EVALUATE_ENDPOINT, {
             method: "POST",
@@ -55,9 +55,9 @@ export default function CVUpload(props: Props) {
                         subtitle={"Get free personalized inputs and search for opportunities that suit you"}
                             />
 
-                            <FileInput file={file} setFile={setFile}/>
+                            <FileInput file={props.cvFile} setFile={props.setCvFile}/>
 
-                            {file &&
+                            {props.cvFile &&
                                 <Button onClick={evaluateCV} disabled={loading}>Evaluate resume</Button>
                             }
                     </ContainerBox>

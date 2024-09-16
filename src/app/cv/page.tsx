@@ -9,6 +9,7 @@ import {rem} from "@mantine/core";
 import CreateAccount from "@/components/CreateAccount";
 import {AnimatePresence, motion} from "framer-motion";
 import {CreatedUser} from "@/schemas/user";
+import OpportunitiesList from "@/components/OpportunitiesList";
 
 const ANIMATIONS =  {
 	initial: {opacity: 0 },
@@ -17,6 +18,7 @@ const ANIMATIONS =  {
 }
 
 export default function CV() {
+	const [cvFile, setCvFile] = useState<File | null>(null);
 	const [cvInfo, setCvInfo] = useState<CvInfo | null>(null);
 	const [showCreateAccount, setShowCreateAccount] = useState<boolean>(false);
 	const [createdUser, setCreatedUser] = useState<CreatedUser | null>(null);
@@ -32,7 +34,7 @@ export default function CV() {
 						animate={ANIMATIONS.animate}
 						exit={ANIMATIONS.exit}
 					>
-						<CVUpload setCvInfo={setCvInfo} />
+						<CVUpload setCvInfo={setCvInfo} cvFile={cvFile} setCvFile={setCvFile}/>
 					</motion.div>
 				}
 
@@ -75,7 +77,7 @@ export default function CV() {
 						animate={ANIMATIONS.animate}
 						exit={ANIMATIONS.exit}
 					>
-						<div>Based on your CV, these are some opportunities we think suit you</div>
+						<OpportunitiesList cvFile={cvFile}/>
 					</motion.div>
 				}
 			</AnimatePresence>
