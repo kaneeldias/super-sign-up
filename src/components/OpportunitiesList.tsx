@@ -34,7 +34,7 @@ export default function OpportunitiesList(props: Props) {
 				loadOpportunities(data.data.skills, data.data.backgrounds);
 			});
 		}
-	}, []);
+	});
 
 	function loadOpportunities(skills: string[], backgrounds: string[]) {
 		console.log(skills, backgrounds);
@@ -80,7 +80,7 @@ export default function OpportunitiesList(props: Props) {
 
 				<div className={`flex flex-col space-y-5`}>
 					{opportunities.map((opportunity, index) => (
-						<OpportunityCard opportunity={opportunity} userSkills={skills} userBackgrounds={backgrounds}/>
+						<OpportunityCard key={index} opportunity={opportunity} userSkills={skills} userBackgrounds={backgrounds}/>
 					))}
 				</div>
 			</ContainerBox>

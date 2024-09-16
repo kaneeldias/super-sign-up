@@ -26,16 +26,16 @@ export default function OpportunityCard(props: Props) {
 				<div className={`flex flex-row flex-wrap gap-2`}>
 					{opportunity.skills.map((skill, index) => {
 						const skillName = SKILLS.find(s => s.id === skill.constant_id.toString())?.name!;
-						if (props.userSkills.includes(skillName)) return <SkillsOrBackgroundChip value={skillName}
+						if (props.userSkills.includes(skillName)) return <SkillsOrBackgroundChip key={index} value={skillName}
 																					   highlighted={true}/>
-						return <SkillsOrBackgroundChip value={skillName} highlighted={false}/>
+						return <SkillsOrBackgroundChip key={index} value={skillName} highlighted={false}/>
 					})}
 					{opportunity.backgrounds.map((background, index) => {
 						const backgroundName = BACKGROUNDS.find(b => b.id === background.constant_id.toString())?.name!;
 						if (props.userBackgrounds.includes(backgroundName)) return <SkillsOrBackgroundChip key={index}
 																								 value={backgroundName}
 																								 highlighted={true}/>
-						return <SkillsOrBackgroundChip value={backgroundName} highlighted={false}/>
+						return <SkillsOrBackgroundChip key={index} value={backgroundName} highlighted={false}/>
 					})}
 				</div>
 			</div>

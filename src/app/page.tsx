@@ -8,9 +8,13 @@ import {Loader, Progress} from "@mantine/core";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {
 	recordCompleted,
-	recordDurationSelection, recordGTaSubProductSelection,
+	recordDurationSelection,
+	recordGTaSubProductSelection,
 	recordProductSelection,
-	recordRegionSelection, recordSDGSelection, recordStartDateSelection, recordStarted
+	recordRegionSelection,
+	recordSDGSelection,
+	recordStartDateSelection,
+	recordStarted
 } from "@/utils/ga4-utils";
 
 export type Profile = {
@@ -39,7 +43,7 @@ export default function Home() {
 
 	useEffect(() => {
 		recordStarted();
-	}, [])
+	})
 
 	useEffect(() => {
 		console.log(searchParams.toString());

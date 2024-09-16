@@ -1,7 +1,7 @@
 "use client"
 
 import {Modal} from "@mantine/core";
-import { useDisclosure } from '@mantine/hooks';
+import {useDisclosure} from '@mantine/hooks';
 import {useEffect, useState} from "react";
 import {HotjarSnippet} from "@/components/HotJar";
 import {GoogleAnalytics} from "@/components/GoogleAnalytics";
@@ -19,7 +19,7 @@ export default function CookieConsent() {
 		} else {
 			cookieBanner.open();
 		}
-	}, [])
+	})
 
 	function acceptCookies(){
 		localStorage.setItem("cookies_accepted", "true");

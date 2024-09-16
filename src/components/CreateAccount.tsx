@@ -72,7 +72,7 @@ export default function CreateAccount(props: Props) {
 
     useEffect(() => {
         populateOfficeData()
-    }, []);
+    });
 
     useEffect(() => {
         populateAlignments();
