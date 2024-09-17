@@ -19,7 +19,7 @@ export default function CookieConsent() {
 		} else {
 			cookieBanner.open();
 		}
-	})
+	}, [])
 
 	function acceptCookies(){
 		localStorage.setItem("cookies_accepted", "true");

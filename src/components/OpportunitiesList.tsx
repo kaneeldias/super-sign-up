@@ -34,7 +34,7 @@ export default function OpportunitiesList(props: Props) {
 				loadOpportunities(data.data.skills, data.data.backgrounds);
 			});
 		}
-	});
+	}, []);
 
 	function loadOpportunities(skills: string[], backgrounds: string[]) {
 		console.log(skills, backgrounds);
