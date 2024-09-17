@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
 				page: 1
 				per_page: 500
 				filters: {
-				  skill_ids: [${skillIds.join(",")}]
-				  background_ids: [${backgroundIds.join(",")}]
+				  ${skillIds.length > 0 ? `skill_ids: [${skillIds.join(",")}]` : ""}
+				  ${backgroundIds.length > 0 ? `background_ids: [${backgroundIds.join(",")}]` : ""}
 				}
 			  ) {
 				data {
