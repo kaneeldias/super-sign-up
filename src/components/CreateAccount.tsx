@@ -46,7 +46,7 @@ export default function CreateAccount(props: Props) {
 
             <div>
                 { !accessToken &&
-                    <a href={"#"} target={"_blank"}><Button onClick={pollForLogin}>Create an account with AIESEC</Button></a>
+                    <a href={getOauthUrl()} target={"_blank"}><Button onClick={pollForLogin}>Create an account with AIESEC</Button></a>
                 }
             </div>
         </ContainerBox>
