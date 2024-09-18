@@ -2,6 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import OpenAI from "openai";
 // @ts-ignore
 import {TextContentBlock} from "openai/src/resources/beta/threads/messages";
+import {SKILLS} from "@/schemas/skills";
 
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest)	 {
 	const thread = await openai.beta.threads.create({
 		messages: [{
 			role: "user",
-			content: "Analyze the CV and extract the person's skills and backgrounds",
+			content: `Analyze the CV and extract the person's top 10 matching skills and top 5 backgrounds based on the predefined list provided. Do not stray from the list. Skills = [${SKILLS.map(s => s.name).join(", ")}]`,
 			attachments: [{
 				file_id: file.id,
 				tools: [{type: "file_search"}]

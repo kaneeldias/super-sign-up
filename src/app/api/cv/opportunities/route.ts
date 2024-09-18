@@ -51,12 +51,14 @@ export async function POST(request: NextRequest) {
 		let score = 0;
 		for (let skill of opportunity.skills) {
 			if (skillIds.includes(skill.constant_id.toString())) {
-				score++;
+				const index = skillIds.indexOf(skill.constant_id.toString());
+				score = score + (skillIds.length - index);
 			}
 		}
 		for (let background of opportunity.backgrounds) {
 			if (backgroundIds.includes(background.constant_id.toString())) {
-				score++;
+				const index = backgroundIds.indexOf(background.constant_id.toString());
+				score = score + (backgroundIds.length - index);
 			}
 		}
 		opportunity.score = score;
