@@ -33,8 +33,8 @@ export default function CVUpload(props: Props) {
             method: "POST",
             body: formData
         }).then(async res => {
-            const data = (await res.json()).data as CvInfo;
-            props.setCvInfo(data);
+            const data = (await res.json());
+            props.setCvInfo(data.data);
         }).finally(() => {
             setLoading(false);
         });

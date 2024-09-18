@@ -4,7 +4,7 @@ import {Button as MantineButton} from "@mantine/core";
 import {ReactNode} from "react";
 
 type Props = {
-    onClick: () => void;
+    onClick?: () => void;
     disabled?: boolean;
     children: ReactNode;
     type?: "button" | "submit" | "reset";

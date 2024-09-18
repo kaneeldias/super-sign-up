@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 				filters: {
 				  ${skillIds.length > 0 ? `skill_ids: [${skillIds.join(",")}]` : ""}
 				  ${backgroundIds.length > 0 ? `background_ids: [${backgroundIds.join(",")}]` : ""}
+				  earliest_start_date: "${getCurrentDate()}"
 				}
 			  ) {
 				data {
@@ -57,5 +58,14 @@ export async function POST(request: NextRequest) {
 
 	const sortedOpportunities = opportunities.sort((a: any, b: any) => b.score - a.score);
 	return NextResponse.json(sortedOpportunities);
+}
+
+//get current data in yyyy-mm-dd format
+function getCurrentDate() {
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
 }
 

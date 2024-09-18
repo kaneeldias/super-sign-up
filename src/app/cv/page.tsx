@@ -8,7 +8,6 @@ import {IconCaretRight} from "@tabler/icons-react";
 import {rem} from "@mantine/core";
 import CreateAccount from "@/components/CreateAccount";
 import {AnimatePresence, motion} from "framer-motion";
-import {CreatedUser} from "@/schemas/user";
 import OpportunitiesList from "@/components/OpportunitiesList";
 
 const ANIMATIONS =  {
@@ -21,7 +20,7 @@ export default function CV() {
 	const [cvFile, setCvFile] = useState<File | null>(null);
 	const [cvInfo, setCvInfo] = useState<CvInfo | null>(null);
 	const [showCreateAccount, setShowCreateAccount] = useState<boolean>(false);
-	const [createdUser, setCreatedUser] = useState<CreatedUser | null>(null);
+	const [userCreated, setUserCreated] = useState<boolean>(false);
 
 	return (
 		<div className={`flex w-full h-full min-h-screen min-w-screen items-center justify-center p-5`}>
@@ -59,18 +58,18 @@ export default function CV() {
 					</motion.div>
 				}
 
-				{showCreateAccount && !createdUser &&
+				{showCreateAccount && !userCreated &&
 					<motion.div
 						key={3}
 						initial={ANIMATIONS.initial}
 						animate={ANIMATIONS.animate}
 						exit={ANIMATIONS.exit}
 					>
-						<CreateAccount cvInfo={cvInfo!} setCreatedUser={setCreatedUser}/>
+						<CreateAccount setUserCreated={setUserCreated}/>
 					</motion.div>
 				}
 
-				{createdUser &&
+				{userCreated &&
 					<motion.div
 						key={4}
 						initial={ANIMATIONS.initial}
