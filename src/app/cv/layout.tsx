@@ -14,10 +14,13 @@ export default function CVLayout({children,}: Readonly<{ children: React.ReactNo
                     localStorage.setItem("access_token", data.access_token);
                     localStorage.setItem("refresh_token", data.refresh_token);
                     localStorage.setItem("access_token_expiration", data.access_token_expiration);
+                } else {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("refresh_token");
+                    localStorage.removeItem("access_token_expiration");
                 }
             });
-        }
-    }, []);
+        }    }, []);
 
     function fetchAccessToken() {
     }
