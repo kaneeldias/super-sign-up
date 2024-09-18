@@ -5,12 +5,18 @@ import {SKILLS} from "@/schemas/skills";
 import SkillsOrBackgroundChip from "@/components/SkillsOrBackgroundComponent/skillOrBackgroundChip";
 import {BACKGROUNDS} from "@/schemas/backgrounds";
 import {Opportunity} from "@/schemas/opportunities";
+import {rem} from "@mantine/core";
+import {IconBuilding, IconMapPin} from "@tabler/icons-react";
 
 type Props = {
 	opportunity: Opportunity;
 	userSkills: string[];
 	userBackgrounds: string[];
 }
+
+const locationIcon = <IconMapPin style={{ width: rem(12), height: rem(12) }} stroke={1.5} />;
+const companyIcon = <IconBuilding style={{ width: rem(12), height: rem(12) }} stroke={1.5} />;
+
 
 export default function OpportunityCard(props: Props) {
 	const {opportunity} = props;
@@ -20,7 +26,12 @@ export default function OpportunityCard(props: Props) {
 			<div className={`flex flex-col space-y-5 bg-light-gray rounded-md p-5 hover:bg-opacity-10 hover:bg-aiesec-blue transition-all hover:border-aiesec-blue border-2 border-solid border-light-gray`}>
 				<div>
 					<div className={`font-bold text-md`}>{opportunity.title}</div>
-					<div className={'text-xs text-bg-dark font-light'}>{opportunity.location}</div>
+					<div className={'flex flex-row space-x-1 text-xs text-bg-dark font-light items-center'}>{locationIcon} {opportunity.location}</div>
+					<div className={'flex flex-row space-x-1 text-xs text-bg-dark font-light items-center'}>{companyIcon} {opportunity.organisation.name}</div>
+				</div>
+
+				<div>
+					<div className={`text-sm text-bg-dark font-light`}>{opportunity.description}</div>
 				</div>
 
 				<div className={`flex flex-row flex-wrap gap-2`}>

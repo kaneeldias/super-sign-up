@@ -8,5 +8,9 @@ export type Opportunity = {
     backgrounds: {
         constant_id: number;
     }[];
+    description: string;
+    organisation: {
+        name: string;
+    };
 }
 

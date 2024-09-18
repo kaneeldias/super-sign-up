@@ -1,4 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
+import {cookies} from "next/headers";
 
 export async function POST(request: NextRequest) {
 	const data = await request.json();
@@ -13,7 +14,6 @@ export async function POST(request: NextRequest) {
 				filters: {
 				  ${skillIds.length > 0 ? `skill_ids: [${skillIds.join(",")}]` : ""}
 				  ${backgroundIds.length > 0 ? `background_ids: [${backgroundIds.join(",")}]` : ""}
-				  earliest_start_date: "${getCurrentDate()}"
 				}
 			  ) {
 				data {
@@ -26,6 +26,10 @@ export async function POST(request: NextRequest) {
 				  backgrounds {
 				    constant_id
 				  }
+				  description
+				  organisation {
+					name
+				  }
 				}  
 			  }
 			}
@@ -36,11 +40,13 @@ export async function POST(request: NextRequest) {
 		body: JSON.stringify({query}),
 		headers: {
 			"Content-Type": "application/json",
-			"Authorization": `${process.env.GIS_ACCESS_TOKEN}`
+			"Authorization": cookies().get("access_token")?.value!
 		}
 	})
 
-	const opportunities = (await response.json()).data.opportunities.data;
+	const responseData = await response.json();
+	console.log(responseData);
+	const opportunities = responseData.data.opportunities.data;
 	for (let opportunity of opportunities) {
 		let score = 0;
 		for (let skill of opportunity.skills) {
