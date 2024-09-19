@@ -33,6 +33,7 @@ export default function OpportunitiesList(props: Props) {
 				const data = await res.json();
 				setSkills(data.data.skills);
 				setBackgrounds(data.data.backgrounds);
+				updateUserSkills(data.data.skills);
 				loadOpportunities(data.data.skills, data.data.backgrounds);
 			});
 		}
@@ -89,6 +90,23 @@ export default function OpportunitiesList(props: Props) {
 		});
 	}
 
+	function updateUserSkills(skills: string[]) {
+		let skillIds = skills.map(skill => SKILLS.find(s => s.name === skill)?.id);
+		//remove empty values
+		skillIds = skillIds.filter(id => id !== undefined);
+
+		fetch(`/api/cv/updateSkills`, {
+			method: "POST",
+			body: JSON.stringify({skills: skillIds}),
+			headers: {
+				"Content-Type": "application/json",
+			}
+		}).then(async res => {
+			const data = await res.json();
+			console.log(data);
+		});
+	}
+
 	return (
 		<>
 		{ opportunities && opportunities.length > 0 &&
@@ -120,7 +138,7 @@ export default function OpportunitiesList(props: Props) {
 			{ showRefresh && opportunities.length > 0 &&
 				<div className={`flex flex-row mt-5 fixed bottom-10 left-0 items-center w-full justify-center`}>
 					<div className={`flex flex-row shadow-black drop-shadow-lg`}>
-						<Button color={"green"} onClick={() => loadOpportunities(skills, backgrounds)}>Refresh</Button>
+						<Button size={"lg"} color={"green"} onClick={() => loadOpportunities(skills, backgrounds)}>Refresh</Button>
 					</div>
 				</div>
 			}
