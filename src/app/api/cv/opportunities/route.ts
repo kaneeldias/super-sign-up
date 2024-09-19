@@ -5,6 +5,7 @@ export async function POST(request: NextRequest) {
 	const data = await request.json();
 	const skillIds = data.skill_ids;
 	const backgroundIds = data.background_ids;
+	const nationalityIds = data.nationality_ids;
 
 	const query = `
 			{
@@ -14,6 +15,7 @@ export async function POST(request: NextRequest) {
 				filters: {
 				  ${skillIds.length > 0 ? `skill_ids: [${skillIds.join(",")}]` : ""}
 				  ${backgroundIds.length > 0 ? `background_ids: [${backgroundIds.join(",")}]` : ""}
+				  ${nationalityIds.length > 0 ? `nationalities: [${nationalityIds.join(",")}]` : ""}
 				}
 			  ) {
 				data {

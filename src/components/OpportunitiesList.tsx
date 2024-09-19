@@ -11,6 +11,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import OpportunitiesLoader from "@/components/Loaders/OpportunitiesLoader";
 import {Button} from "@mantine/core";
 import {CvInfo, WorkExperience} from "@/schemas/cv_info";
+import {COUNTRIES} from "@/schemas/country";
 
 type Props = {
 	cvFile: File | null;
@@ -22,6 +23,7 @@ export default function OpportunitiesList(props: Props) {
 	const [backgrounds, setBackgrounds] = React.useState<string[]>([]);
 	const [opportunities, setOpportunities] = React.useState<Opportunity[]>([]);
 	const [showRefresh, setShowRefresh] = React.useState<boolean>(false);
+	const [nationalities, setNationalities] = React.useState<string[]>([]);
 
 	React.useEffect(() => {
 		if (props.cvFile) {
@@ -35,16 +37,17 @@ export default function OpportunitiesList(props: Props) {
 				const data = await res.json();
 				setSkills(data.data.skills);
 				setBackgrounds(data.data.backgrounds);
+				setNationalities(data.data.nationalities);
 				updateUserSkills(data.data.skills);
 				updateUserWorkExperience(props.cvInfo.work_experience);
-				loadOpportunities(data.data.skills, data.data.backgrounds);
+				loadOpportunities(data.data.skills, data.data.backgrounds, data.data.nationalities);
 			});
 		}
 	}, []);
 
 	useEffect(() => {
 		setShowRefresh(true);
-	}, [skills, backgrounds]);
+	}, [skills, backgrounds, nationalities]);
 
 	function addSkill(skill: string) {
 		setSkills([skill, ...skills]);
@@ -62,8 +65,8 @@ export default function OpportunitiesList(props: Props) {
 		setBackgrounds(backgrounds.filter(b => b !== background));
 	}
 
-	function loadOpportunities(skills: string[], backgrounds: string[]) {
-		console.log(skills, backgrounds);
+	function loadOpportunities(skills: string[], backgrounds: string[], nationalities: string[]) {
+		console.log(skills, backgrounds, nationalities);
 		setOpportunities([]);
 
 		let skillIds = skills.map(skill => SKILLS.find(s => s.name === skill)?.id);
@@ -74,13 +77,18 @@ export default function OpportunitiesList(props: Props) {
 		//remove empty values
 		backgroundIds = backgroundIds.filter(id => id !== undefined);
 
+		let nationalityIds = nationalities.map(nationality => COUNTRIES.find(c =>	c.name === nationality)?.id);
+		//remove empty values
+		nationalityIds = nationalityIds.filter(id => id !== undefined);
+
 		console.log(skillIds, backgroundIds);
 
 		fetch(`/api/cv/opportunities`, {
 			method: "POST",
 			body: JSON.stringify({
 				skill_ids: skillIds,
-				background_ids: backgroundIds
+				background_ids: backgroundIds,
+				nationality_ids: nationalityIds
 			}),
 			headers: {
 				"Content-Type": "application/json",
@@ -135,6 +143,7 @@ export default function OpportunitiesList(props: Props) {
 				<div className={`flex flex-col space-y-5`}>
 					<SkillsOrBackgroundComponent type={"skills"} items={skills} setItems={setSkills}/>
 					<SkillsOrBackgroundComponent type={"backgrounds"} items={backgrounds} setItems={setBackgrounds}/>
+					<SkillsOrBackgroundComponent type={"nationalities"} items={nationalities} setItems={setNationalities}/>
 				</div>
 
 				<div className={`flex flex-col space-y-10`}>
@@ -154,7 +163,7 @@ export default function OpportunitiesList(props: Props) {
 			{ showRefresh && opportunities.length > 0 &&
 				<div className={`flex flex-row mt-5 fixed bottom-10 left-0 items-center w-full justify-center`}>
 					<div className={`flex flex-row shadow-black drop-shadow-lg`}>
-						<Button size={"lg"} color={"green"} onClick={() => loadOpportunities(skills, backgrounds)}>Refresh</Button>
+						<Button size={"lg"} color={"green"} onClick={() => loadOpportunities(skills, backgrounds, nationalities)}>Refresh</Button>
 					</div>
 				</div>
 			}

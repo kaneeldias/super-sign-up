@@ -2,7 +2,7 @@ import React from "react";
 import {Tooltip} from "@mantine/core";
 
 type Props = {
-    type: "skills" | "backgrounds";
+    type: "skills" | "backgrounds" | "nationalities";
     items: string[];
     setItems: (items: string[]) => void;
 }
@@ -17,7 +17,8 @@ export default function SkillsOrBackgroundComponent(props: Props) {
     }
 
     return (
-        <div className={`flex flex-col space-y-2`}>
+        <>
+        { props.items && <div className={`flex flex-col space-y-2`}>
             <div className={`font-bold text-sm`}>{`These are what we think your ${props.type} may be`}</div>
             <div className={`flex flex-row flex-wrap gap-3`}>
                 {props.items.map((item: string, index: number) => (
@@ -33,6 +34,7 @@ export default function SkillsOrBackgroundComponent(props: Props) {
                     </div>
                 ))}
             </div>
-        </div>
+        </div>}
+        </>
     )
 }

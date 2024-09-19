@@ -19,7 +19,7 @@ export async function POST(request: NextRequest)	 {
 	const thread = await openai.beta.threads.create({
 		messages: [{
 			role: "user",
-			content: `Analyze the CV and extract the person's top 10 matching skills and top 5 backgrounds based on the predefined list provided. Do not stray from the list. Skills = [${SKILLS.map(s => s.name).join(", ")}]`,
+			content: `Analyze the CV and extract the person's top 10 matching skills and top 5 backgrounds, as well as their nationalities based on the predefined list provided. Do not stray from the list. Skills = [${SKILLS.map(s => s.name).join(", ")}]`,
 			attachments: [{
 				file_id: file.id,
 				tools: [{type: "file_search"}]
