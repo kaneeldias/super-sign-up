@@ -10,10 +10,12 @@ export type CvInfo = {
 
 export type WorkExperience = {
     company: string;
+    employment_type: number;
     position: string;
+    country: number | null;
     start_date: Date | null;
     end_date: Date | null;
-    location: string;
+    description: string;
 }
 
 export type EducationalBackground = {

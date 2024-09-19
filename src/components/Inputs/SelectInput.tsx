@@ -5,11 +5,12 @@ import {Select as MantineSelect} from "@mantine/core";
 type Props = {
     label: string;
     value: string | null;
-    setValue: (value: string | null) => void;
+    setValue: (value: any) => void;
     searchable?: boolean;
     data: {value: string, label: string}[] | undefined;
     errors?: string[];
     setIsDirty?: () => void;
+    className?: string;
 }
 
 export default function SelectInput(props: Props) {
@@ -27,6 +28,7 @@ export default function SelectInput(props: Props) {
             searchable={props.searchable}
             disabled={props.data === undefined}
             error={props.errors ? props.errors[0] : null}
+            className={props.className}
         />
     )
 }

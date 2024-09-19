@@ -10,9 +10,11 @@ import {Opportunity} from "@/schemas/opportunities";
 import OpportunityCard from "@/components/OpportunityCard";
 import OpportunitiesLoader from "@/components/Loaders/OpportunitiesLoader";
 import {Button} from "@mantine/core";
+import {CvInfo, WorkExperience} from "@/schemas/cv_info";
 
 type Props = {
 	cvFile: File | null;
+	cvInfo: CvInfo;
 }
 
 export default function OpportunitiesList(props: Props) {
@@ -34,6 +36,7 @@ export default function OpportunitiesList(props: Props) {
 				setSkills(data.data.skills);
 				setBackgrounds(data.data.backgrounds);
 				updateUserSkills(data.data.skills);
+				updateUserWorkExperience(props.cvInfo.work_experience);
 				loadOpportunities(data.data.skills, data.data.backgrounds);
 			});
 		}
@@ -98,6 +101,19 @@ export default function OpportunitiesList(props: Props) {
 		fetch(`/api/cv/updateSkills`, {
 			method: "POST",
 			body: JSON.stringify({skills: skillIds}),
+			headers: {
+				"Content-Type": "application/json",
+			}
+		}).then(async res => {
+			const data = await res.json();
+			console.log(data);
+		});
+	}
+
+	function updateUserWorkExperience(workExperience: WorkExperience[]) {
+		fetch(`/api/cv/updateWorkExperience`, {
+			method: "POST",
+			body: JSON.stringify({workExperience}),
 			headers: {
 				"Content-Type": "application/json",
 			}

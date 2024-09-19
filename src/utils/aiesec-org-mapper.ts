@@ -1,5 +1,4 @@
 import {Profile} from "@/app/page";
-import {base} from "next/dist/build/webpack/config/blocks/base";
 
 export function getUrl(profile: Profile) {
 	let baseUrl = "https://aiesec.org/search?";
@@ -74,6 +73,10 @@ const regionsMap = {
 	"Middle East & Africa": "1632",
 }
 
-export function getDateStringFromDate(date: Date): string {
+export function getDateStringFromDate(date: Date | string): string {
+	if (typeof date === "string") {
+		date = new Date(date);
+	}
+
 	return date.toISOString().split('T')[0];
 }

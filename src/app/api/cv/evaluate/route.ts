@@ -2,6 +2,9 @@ import {NextRequest, NextResponse} from "next/server";
 import OpenAI from "openai";
 // @ts-ignore
 import {TextContentBlock} from "openai/src/resources/beta/threads/messages";
+import {CvInfo, WorkExperience} from "@/schemas/cv_info";
+import {COUNTRIES} from "@/schemas/country";
+import {WORK_TYPES} from "@/schemas/work_types";
 
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
@@ -53,6 +56,34 @@ export async function POST(request: NextRequest)	 {
 		response = {error: "An error occurred while processing the CV"};
 	}
 
-	return NextResponse.json({fileName: cv.name, data: response});
+	const workExperiences: WorkExperience[] = [];
+	for (const work_experience of response.work_experience) {
+		const employment_type = parseInt(WORK_TYPES.find(wt => wt.name === work_experience.employment_type)?.id!);
+		const country = parseInt(COUNTRIES.find(c => c.name === work_experience.country)?.id!);
+
+		const we: WorkExperience = {
+			company: work_experience.company,
+			employment_type: employment_type,
+			position: work_experience.position,
+			country: country,
+			start_date: new Date(work_experience.start_date),
+			end_date: new Date(work_experience.end_date),
+			description: work_experience.description
+		};
+
+		workExperiences.push(we);
+	}
+
+	const cvInfo: CvInfo = {
+		first_name: response.first_name,
+		last_name: response.last_name,
+		email: response.email,
+		phone: response.phone,
+		country: response.country,
+		work_experience: workExperiences,
+		educational_background: response.educational_background
+	};
+
+	return NextResponse.json({fileName: cv.name, data: cvInfo});
 }
 

@@ -76,7 +76,7 @@ export default function CV() {
 						animate={ANIMATIONS.animate}
 						exit={ANIMATIONS.exit}
 					>
-						<OpportunitiesList cvFile={cvFile}/>
+						<OpportunitiesList cvFile={cvFile} cvInfo={cvInfo!}/>
 					</motion.div>
 				}
 			</AnimatePresence>
