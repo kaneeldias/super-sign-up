@@ -1,5 +1,5 @@
 import ReactGA from "react-ga4";
-import {Profile} from "@/app/page";
+import {Profile} from "@/components/Main";
 
 export function recordProductSelection(product: string) {
     ReactGA.event("product_selected", {product: product});

@@ -1,4 +1,4 @@
-import {Profile} from "@/app/page";
+import {Profile} from "@/components/Main";
 
 export function getUrl(profile: Profile) {
 	let baseUrl = "https://aiesec.org/search?";
