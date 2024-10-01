@@ -59,7 +59,7 @@ export const FLOW: Flow = {
 		question: "What is the earliest date you would like to start a project?",
 		answersType: "Date",
 		options: [
-			{ value: "Find my opportunities", next: -1 },
+			{ value: "Find my opportunities", next: 7 },
 		]
 	},
 	6: {
@@ -68,6 +68,13 @@ export const FLOW: Flow = {
 		answersType: "SDGSelection",
 		options: [
 			{ value: "Next", next: 5 }
+		]
+	},
+	7: {
+		question:"You need to create an account with AIESEC before viewing opportunities",
+		answersType: "ForceSignUp",
+		options: [
+			{ value: "Sign Up", next: -1 }
 		]
 	},
 }

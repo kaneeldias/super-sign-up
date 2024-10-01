@@ -1,7 +1,8 @@
 import NextButton from "@/components/NextButton";
-import {Question} from "@/config/flow";
 import {useState} from "react";
-import { DatePicker } from '@mantine/dates';
+import {DatePicker} from '@mantine/dates';
+import {Question} from "@/schemas/flow";
+import '@mantine/dates/styles.css';
 
 type Props = {
 	item: Question;
@@ -9,7 +10,7 @@ type Props = {
 }
 
 export default function StartDatePicker(props: Props) {
-	const [value, setValue] = useState<Date | null>(getDate30DaysFromNow());
+	const [value, setValue] = useState<Date | null>(null);
 	
 	return (
 		<div className={`flex flex-col space-y-5`}>

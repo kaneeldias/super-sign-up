@@ -1,13 +1,13 @@
-import { motion } from "framer-motion"
+import {motion} from "framer-motion"
 
 type Props = {
-	type: "GV" | "GTe" | "GTa";
+	type?: "GV" | "GTe" | "GTa";
 	onClick: () => void;
 }
 
 export default function ProductButton(props: Props) {
-	let bgColor = "bg-gv-red";
-	let text = "Volunteer Abroad";
+	let bgColor = "bg-aiesec-blue";
+	let text = "Create an account";
 	switch (props.type) {
 		case "GTe":
 			bgColor = "bg-gte-orange";
@@ -17,6 +17,9 @@ export default function ProductButton(props: Props) {
 			bgColor = "bg-gta-green";
 			text = "Intern Abroad";
 			break;
+		case "GV":
+			bgColor = "bg-gv-red";
+			text = "Volunteer Abroad";
 	}
 
 	function buttonClick() {

@@ -4,8 +4,8 @@ import ContainerBox from "@/components/Container/ContainerBox";
 import ContainerHeader from "@/components/Container/ContainerHeader";
 import React, {useEffect} from "react";
 import Button from "@/components/Inputs/Button";
+import {getOauthUrl} from "@/utils/auth-client-utils";
 
-const OAUTH_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_ENDPOINT}/oauth/authorize`;
 
 type Props = {
     setUserCreated: (value: boolean) => void;
@@ -21,10 +21,6 @@ export default function CreateAccount(props: Props) {
             props.setUserCreated(true);
         }
     }, []);
-
-    function getOauthUrl() {
-        return `${OAUTH_ENDPOINT}?client_id=${process.env.NEXT_PUBLIC_AUTH_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_AUTH_REDIRECT_URI as string)}&response_type=code`;
-    }
 
     function pollForLogin() {
         const interval = setInterval(() => {
