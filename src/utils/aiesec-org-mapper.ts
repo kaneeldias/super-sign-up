@@ -9,21 +9,7 @@ export function getUrl(profile: Profile, utm: Utm) {
 	}
 	
 	if (profile.sdg) {
-		if (profile.sdg == 3) {
-			baseUrl = "https://aiesec.org/project/1280511?"
-		}
-		else if (profile.sdg == 10) {
-			baseUrl = "https://aiesec.org/project/1280521?"
-		}
-		else if (profile.sdg == 13) {
-			baseUrl = "https://aiesec.org/project/1280522?"
-		}
-		else if (profile.sdg == 15) {
-			baseUrl = "https://aiesec.org/project/1280523?"
-		}
-		else {
-			baseUrl += `&sdg_goals=111${profile.sdg.toFixed(0).padStart(2, "0")}`;
-		}
+		baseUrl += `&sdg_goals=111${profile.sdg.toFixed(0).padStart(2, "0")}`;
 	}
 	
 	// @ts-ignore
