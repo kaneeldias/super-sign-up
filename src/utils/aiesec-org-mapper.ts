@@ -1,6 +1,7 @@
 import {Profile} from "@/components/Main";
+import {Utm} from "@/schemas/flow";
 
-export function getUrl(profile: Profile) {
+export function getUrl(profile: Profile, utm: Utm) {
 	let baseUrl = "https://aiesec.org/search?";
 	
 	if (profile.product && !baseUrl.includes("project")) {
@@ -46,7 +47,7 @@ export function getUrl(profile: Profile) {
 		baseUrl += `&earliest_start_date=${getDateStringFromDate(profile.earliestStartDate)}`;
 	}
 	
-	baseUrl += "&utm_source=Website&utm_medium=Stories&utm_campaign=MLT-SuperSignup&utm_term=SS&utm_content=General"
+	baseUrl += `&utm_source=${utm.source}&utm_medium=${utm.medium}&utm_campaign=${utm.campaign}&utm_term=${utm.term}&utm_content=${utm.content}`;
 	return baseUrl;
 }
 

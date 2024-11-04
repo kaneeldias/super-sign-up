@@ -11,5 +11,14 @@ export type Option = {
 }
 
 export type Flow = {
-    [key: number]: Question
+    [key: number]: Question,
+    utm: Utm
+}
+
+export type Utm = {
+    source: string,
+    medium: string,
+    campaign: string,
+    term: string,
+    content: string
 }

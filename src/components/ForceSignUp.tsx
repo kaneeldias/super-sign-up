@@ -32,6 +32,6 @@ export default function ForceSignUp(props: Props) {
 
 
 	return (
-			<a href={getOauthUrl()} target="_blank"><ProductButton onClick={() => pollForLogin()}/></a>
+			<a href={getOauthUrl("MLT-SalesSS")} target="_blank"><ProductButton onClick={() => pollForLogin()}/></a>
 	);
 }

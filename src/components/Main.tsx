@@ -170,7 +170,7 @@ export default function Main(props: Props) {
 	}, [question])
 	
 	function redirectUser() {
-		window.location.href = getUrl(profile);
+		window.location.href = getUrl(profile, props.flow.utm);
 	}
 	
 	return (

@@ -77,4 +77,11 @@ export const FLOW: Flow = {
 			{ value: "Sign Up", next: -1 }
 		]
 	},
+	utm: {
+		source: "Website",
+		medium: "Stories",
+		campaign: "MLT-SalesSS",
+		term: "SS",
+		content: "General"
+	}
 }
